@@ -21,7 +21,8 @@
 :root{
   --bg:#0f1117; --bg2:#171b26; --bg-header:#171b26; --bg3:#1e2333; --border:#2a2f42;
   --text:#e8eaf0; --muted:#7a8099; --accent:#f5a623; --accent-txt:#0f1117;
-  --success:#3ecf8e; --danger:#ff4444; --radius:8px;
+  --north:#4a9eff; --south:#3ecf8e; --east:#ff7043; --west:#b57bee;
+  --danger:#ff4444; --success:#3ecf8e; --radius:8px;
   --abc-a:#f5a623; --abc-b:#4a9eff; --abc-c:#7a8099;
   --chart-grid: rgba(42,47,66,.5);
   --fh:'Barlow Condensed',sans-serif; --fb:'Barlow',sans-serif;
@@ -30,79 +31,36 @@
 
 /* ── MODO CINZA (ESTILO MERCOS) ── */
 body.theme-cinza {
-  --bg: #f0f4f8; --bg2: #ffffff; --bg3: #f7fafc; --bg-header: #ffffff; --border: #e2e8f0;    
-  --text: #0f172a; --muted: #64748b;     
-  --accent: #f5a623; --accent-txt: #0f172a;
-  --success: #00c853; --danger: #ff1744; --chart-grid: #e2e8f0; --radius: 8px;
+  --bg: #f4f5f8; --bg2: #ffffff; --bg-header: #898989; --bg3: #f0f2f5; --border: #d1d5db;    
+  --text: #1e293b; --muted: #64748b;     
+  --accent: #5e35b1; --accent-txt: #ffffff;
+  --success: #10b981; --danger: #ef4444; --chart-grid: #e2e8f0;
 }
-body.theme-cinza header { background: var(--bg-header); border-bottom: 2px solid #f0f4f8; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
-body.theme-cinza header #theme-btn { color: #64748b; }
-body.theme-cinza #g-search { background: #f0f4f8; color: #0f172a; border-color: #e2e8f0; }
-body.theme-cinza #g-search:focus { background: #fff; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.15); }
-body.theme-cinza #g-search::placeholder { color: #94a3b8; }
-body.theme-cinza .ham-btn { border-color: #e2e8f0; }
-body.theme-cinza .ham-btn:hover { border-color: #94a3b8; }
-body.theme-cinza .ham-btn span { background: #334155; }
-body.theme-cinza .btn-ghost { background: transparent; border-color: #e2e8f0; color: #64748b; }
-body.theme-cinza .btn-ghost:hover { border-color: #94a3b8; color: #0f172a; }
-body.theme-cinza .user-badge { border-color: #e2e8f0; color: #64748b; }
-body.theme-cinza .user-badge:hover { border-color: #ff1744; color: #ff1744; }
-body.theme-cinza .bottom-nav { background: #ffffff; border-top: 1px solid #e2e8f0; box-shadow: 0 -4px 16px rgba(0,0,0,.05); }
+body.theme-cinza header { background: var(--bg-header); border-bottom: none; }
+body.theme-cinza header #theme-btn { color: #ffffff; }
+body.theme-cinza #g-search { background: rgba(255,255,255,0.9); color: #1e293b; border-color: transparent; }
+body.theme-cinza #g-search:focus { background: #ffffff; border-color: var(--accent); }
+body.theme-cinza .ham-btn { border-color: rgba(255,255,255,0.4); }
+body.theme-cinza .ham-btn span { background: #ffffff; }
+body.theme-cinza .bottom-nav { background: #ffffff; border-top: 1px solid var(--border); }
 body.theme-cinza .nav-item { color: #94a3b8; }
 body.theme-cinza .nav-item.active { color: var(--accent); }
-body.theme-cinza .nav-item.active .nav-label { color: var(--accent); }
-body.theme-cinza .drawer { background: #ffffff; border-left: 1px solid #e2e8f0; box-shadow: -8px 0 30px rgba(0,0,0,.1); }
-body.theme-cinza .drawer-head { background: #f8fafc; color: #0f172a; border-bottom: 1px solid #e2e8f0; }
-body.theme-cinza .drawer-title { color: #0f172a; }
-body.theme-cinza .drawer-close { color: #64748b; }
-body.theme-cinza .drawer-btn { background: #f8fafc; border-color: var(--border); color: #334155; }
-body.theme-cinza .drawer-btn:hover { border-color: var(--accent); color: var(--accent); background: #fffbf0; }
-body.theme-cinza .drawer-btn.active { background: rgba(245,166,35,0.08); border-color: var(--accent); color: var(--accent); }
-body.theme-cinza .form-input { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
-body.theme-cinza .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.12); }
-body.theme-cinza .form-label { color: #475569; }
-body.theme-cinza select.form-input option { background: #ffffff; color: #0f172a; }
-body.theme-cinza .card, body.theme-cinza .stat-card, body.theme-cinza .panel-block, body.theme-cinza .evolucao-chart-box, body.theme-cinza .meta-bar { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 6px rgba(0,0,0,.05); }
-body.theme-cinza .card-head { background: #f8fafc; border-bottom-color: #e2e8f0; }
-body.theme-cinza .card-title { color: #0f172a; }
-body.theme-cinza .stat-card { border-left: 3px solid transparent; }
-body.theme-cinza .list-item { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
-body.theme-cinza .list-item:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(245,166,35,.12); transform: translateX(3px); }
-body.theme-cinza .list-item-name, body.theme-cinza .card-title { color: #0f172a; }
-body.theme-cinza .page-header, body.theme-cinza .page-search { background: #ffffff; border-color: #e2e8f0; }
-body.theme-cinza .date-divider { background: #f0f4f8; color: #475569; border-top-color: #e2e8f0; border-bottom-color: #e2e8f0; }
-body.theme-cinza .badge-faturado { background: #e8fff0; color: #00a040; border: 1px solid #00c853; }
-body.theme-cinza .badge-pendente { background: #fff8e1; color: #e65100; border: 1px solid #ff9800; }
-body.theme-cinza .badge-cancelado { background: #ffebee; color: #c62828; border: 1px solid #ff1744; }
-body.theme-cinza .badge-A { background: #fff8e1; color: #e65100; border: 1px solid #f5a623; }
-body.theme-cinza .badge-B { background: #e3f2fd; color: #1565c0; border: 1px solid #1e88e5; }
-body.theme-cinza .badge-C { background: #f1f5f9; color: #475569; border: 1px solid #94a3b8; }
-body.theme-cinza .modal { background: #f8fafc; border-color: #e2e8f0; }
-body.theme-cinza .modal-head, body.theme-cinza .modal-foot { background: #ffffff; border-color: #e2e8f0; }
-body.theme-cinza .modal-title { color: #0f172a; }
-body.theme-cinza .modal-close { color: #64748b; }
-body.theme-cinza .modal-close:hover { background: #f0f4f8; }
-body.theme-cinza .confirm-box { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 20px 60px rgba(0,0,0,.12); }
-body.theme-cinza #toast { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
-body.theme-cinza .map-toolbar { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
-body.theme-cinza .abc-legend-bar { background: #f8fafc; border-bottom-color: #e2e8f0; }
-body.theme-cinza .map-dark-tile { filter: none !important; }
-body.theme-cinza .leaflet-tile-pane { filter: none !important; }
-body.theme-cinza .meta-progress-wrap, body.theme-cinza .panel-progress-wrap { background: #e2e8f0; }
-body.theme-cinza ::-webkit-scrollbar-thumb { background: #cbd5e1; }
-body.theme-cinza ::-webkit-scrollbar-track { background: #f0f4f8; }
-body.theme-cinza .toggle-box { background: #e2e8f0; border-color: #cbd5e1; }
-body.theme-cinza .toggle-box::after { background: #94a3b8; }
-body.theme-cinza #login-screen { background: linear-gradient(135deg, #f0f4f8 0%, #e8f4fd 100%); }
-body.theme-cinza .login-box { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 20px 60px rgba(0,0,0,.1); }
-body.theme-cinza .login-input { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
-body.theme-cinza .login-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.15); }
-body.theme-cinza #loading-screen { background: #f0f4f8; }
-body.theme-cinza .ind-card { background: #ffffff; border-color: #e2e8f0; }
-body.theme-cinza .ind-title { color: #0f172a; }
-/* Botões de cidade claros */
-body.theme-cinza .city-btn { background: #e2e8f0; color: #475569; border-color: #e2e8f0; }
-body.theme-cinza .city-btn.active { background: var(--accent); color: var(--accent-txt); border-color: var(--accent); }
+body.theme-cinza .drawer { background: #ffffff; border-left: 1px solid var(--border); }
+body.theme-cinza .drawer-head { background: var(--bg-header); color: #ffffff; border-bottom: none; }
+body.theme-cinza .drawer-title, body.theme-cinza .drawer-close { color: #ffffff; }
+body.theme-cinza .drawer-btn { background: #ffffff; border-color: var(--border); color: var(--text); }
+body.theme-cinza .drawer-btn:hover { border-color: var(--accent); color: var(--accent); background: #f8fafc; }
+body.theme-cinza .drawer-btn.active { background: rgba(94, 53, 177, 0.08); border-color: var(--accent); color: var(--accent); }
+body.theme-cinza .form-input { background: #ffffff; border-color: #cbd5e1; color: #1e293b; }
+body.theme-cinza .form-input:focus { border-color: var(--accent); }
+body.theme-cinza .modal { background: #f8fafc; }
+body.theme-cinza .modal-head, body.theme-cinza .modal-foot { background: #ffffff; border-color: var(--border); }
+body.theme-cinza .list-item, body.theme-cinza .card, body.theme-cinza .stat-card, body.theme-cinza .panel-block, body.theme-cinza .evolucao-chart-box { background: #ffffff; border-color: #cbd5e1; }
+body.theme-cinza .page-header, body.theme-cinza .page-search { background: #f8fafc; border-color: #cbd5e1; }
+body.theme-cinza .badge-faturado { background: #d1fae5; color: #047857; border: 1px solid #34d399; }
+body.theme-cinza .badge-pendente { background: #fef3c7; color: #b45309; border: 1px solid #fbbf24; }
+body.theme-cinza .badge-cancelado { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
+body.theme-cinza .badge-A { background: rgba(94, 53, 177, 0.1); color: var(--accent); border: 1px solid rgba(94, 53, 177, 0.3); }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
@@ -342,14 +300,18 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   box-shadow:0 24px 60px rgba(0,0,0,.5);
   display:flex;flex-direction:column;align-items:center;gap:0;
 }
-.login-logo { margin-bottom:28px; }
+.login-logo {
+  margin-bottom:28px;
+}
 .login-logo img { height:32px; }
 .login-title {
   font-family:var(--fh);font-weight:800;font-size:18px;
   letter-spacing:.04em;text-transform:uppercase;
   color:var(--text);margin-bottom:6px;text-align:center;width:100%;
 }
-.login-sub { font-size:13px;color:var(--muted);margin-bottom:28px;text-align:center;width:100%; }
+.login-sub {
+  font-size:13px;color:var(--muted);margin-bottom:28px;text-align:center;width:100%;
+}
 .login-field { width:100%;margin-bottom:14px; }
 .login-label {
   display:block;font-family:var(--fh);font-size:11px;
@@ -398,15 +360,6 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* User info in header */
-.user-badge {
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--fh);font-size:12px;font-weight:700;
-  letter-spacing:.04em;color:var(--muted);cursor:pointer;
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:5px 10px;transition:all .15s;background:transparent;
-}
-.user-badge:hover { color:var(--danger);border-color:var(--danger); }
 </style>
 </head>
 <body>
@@ -1103,6 +1056,7 @@ function setMapTheme() {
   }).addTo(gmap);
 }
 
+function zone4(lat,lng){return lat>=CLat?(lng>=CLng?'NORTE':'OESTE'):(lng>=CLng?'LESTE':'SUL');}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
 function esc(s){return(s||'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');}
 function isCoord(lat,lng){return lat!=null&&lng!=null&&!isNaN(lat)&&!isNaN(lng)&&lat>=-90&&lat<=90;}
@@ -1153,9 +1107,10 @@ function last6Months(){
 // Extract City from RAW Address if not provided
 function mkCustomer(r){
   let cid = 'Outras';
-  if(r.address.includes('BG')) cid = 'Bento Gonçalves';
-  else if(r.address.includes('Garibaldi')) cid = 'Garibaldi';
-  else if(r.address.includes('Caxias')) cid = 'Caxias do Sul';
+  const addr = r.address || '';
+  if(addr.includes('BG')) cid = 'Bento Gonçalves';
+  else if(addr.includes('Garibaldi')) cid = 'Garibaldi';
+  else if(addr.includes('Caxias')) cid = 'Caxias do Sul';
 
   return{id:uid(),name:r.name,address:r.address,cidade:cid,lat:r.lat||null,lng:r.lng||null,
     notes:'',tel:'',visited:false,lastvisit:null};
@@ -1166,7 +1121,6 @@ function mkCustomer(r){
 // ══════════════════════════════════════════════════
 async function load(){
   try{
-    // Adicionado tratamento de erro individual caso a tabela Vendedores ainda não exista
     const[rCli,rPed,rRep,rMet,rVend]=await Promise.all([
       supabaseClient.from('clientes').select('*').catch(()=>({data:[]})),
       supabaseClient.from('pedidos').select('*').catch(()=>({data:[]})),
@@ -1265,7 +1219,7 @@ function renderMapMarkers(){
     // Filtro de Cidade
     if(activeCity && (c.cidade || 'Outras') !== activeCity) return;
     // Filtro de Busca
-    if(mapSearchText && !c.name.toLowerCase().includes(mapSearchText) && !(c.address||'').toLowerCase().includes(mapSearchText)) return;
+    if(mapSearchText && !(c.name||'').toLowerCase().includes(mapSearchText) && !(c.address||'').toLowerCase().includes(mapSearchText)) return;
 
     let color = '#4a9eff'; // Padrão
     if (abcMode) {
@@ -1466,7 +1420,7 @@ function renderIndicadores(){
   
   const isCinza = document.body.classList.contains('theme-cinza');
   const textColor = isCinza ? '#1e293b' : '#e8eaf0';
-  const cLine = isCinza ? '#00c853' : '#3ecf8e'; 
+  const cLine = isCinza ? '#10b981' : '#3ecf8e'; 
   const cGrid = isCinza ? '#e2e8f0' : 'rgba(42,47,66,.5)';
   const cTick = isCinza ? '#64748b' : '#7a8099';
 
@@ -1681,7 +1635,7 @@ function renderPedidos(){
     list=list.filter(p=>{
       const c=customers.find(x=>x.id===p.clienteid);
       const r=representadas.find(x=>x.id===p.representadaid);
-      return p.numero?.toLowerCase().includes(q)||(c?.name||'').toLowerCase().includes(q)||(r?.nome||'').toLowerCase().includes(q);
+      return (p.numero||'').toLowerCase().includes(q)||(c?.name||'').toLowerCase().includes(q)||(r?.nome||'').toLowerCase().includes(q);
     });
   }
 
@@ -1778,13 +1732,13 @@ function filterClientesPedido() {
   drop.style.display = 'block';
   
   let html = '';
-  const filtrados = customers.filter(c => c.name.toLowerCase().includes(q));
+  const filtrados = customers.filter(c => (c.name||'').toLowerCase().includes(q));
   
   filtrados.forEach(c => {
     html += `<div style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-family:var(--fh);font-size:14px;color:var(--text)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'" onclick="selectClientePedido('${c.id}', '${esc(c.name)}')">${esc(c.name)}</div>`;
   });
   
-  if(q.trim().length > 0 && !filtrados.find(c => c.name.toLowerCase() === q.trim())) {
+  if(q.trim().length > 0 && !filtrados.find(c => (c.name||'').toLowerCase() === q.trim())) {
      html += `<div style="padding:12px 14px;cursor:pointer;color:var(--success);font-family:var(--fh);font-weight:bold;text-align:center;background:rgba(62,207,142,0.1)" onclick="addClienteFromPedido('${esc(q)}')">+ Cadastrar "${esc(q)}"</div>`;
   }
   
@@ -1874,12 +1828,11 @@ function deletePedido(){
 function renderClientes(){
   calcABC();
   const q=(document.getElementById('cliente-search')?.value||document.getElementById('g-search')?.value||'').toLowerCase();
-  let list=[...customers].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
-  if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||(c.address||'').toLowerCase().includes(q)||(c.cidade||'').toLowerCase().includes(q));
+  let list=[...customers].sort((a,b)=>(a.name||'').localeCompare((b.name||''),'pt-BR'));
+  if(q)list=list.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.address||'').toLowerCase().includes(q)||(c.cidade||'').toLowerCase().includes(q));
   const el=document.getElementById('clientes-list');
   if(!list.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">Nenhum cliente</div></div>`;return;}
   
-  // Alterado para abrir o DETALHE (Resumo) em vez do Edit direto
   el.innerHTML=list.map(c=>`<div class="list-item" onclick="openClienteDetalhe('${c.id}')">
     <div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px;background:${ZC[c.zone]||'var(--muted)'}"></div>
     <div class="list-item-info">
@@ -2013,7 +1966,7 @@ async function saveCliente(){
   
   closeModal('modal-cliente');
   renderClientes();renderMapMarkers();updMapBadges();
-  renderCityFilters(); // Atualiza botões de cidade
+  renderCityFilters(); 
   
   if(isAddingClientFromPedido) {
     selectClientePedido(c.id, c.name);
@@ -2216,12 +2169,13 @@ async function initApp(user) {
   calcABC();
   initMap();
   
-  // Extrair cidades dos endereços dos clientes se não houver cidade salva
+  // Extrair cidades dos endereços dos clientes de forma 100% segura
   customers.forEach(c => {
      if(!c.cidade) {
-         if(c.address.includes('BG')) c.cidade = 'Bento Gonçalves';
-         else if(c.address.includes('Garibaldi')) c.cidade = 'Garibaldi';
-         else if(c.address.includes('Caxias')) c.cidade = 'Caxias do Sul';
+         const addr = c.address || '';
+         if(addr.includes('BG')) c.cidade = 'Bento Gonçalves';
+         else if(addr.includes('Garibaldi')) c.cidade = 'Garibaldi';
+         else if(addr.includes('Caxias')) c.cidade = 'Caxias do Sul';
          else c.cidade = 'Outras';
      }
   });
@@ -2231,6 +2185,8 @@ async function initApp(user) {
   updMapBadges();
   const wc = customers.filter(c => isCoord(c.lat, c.lng));
   if(wc.length) gmap.fitBounds(L.latLngBounds(wc.map(c=>[c.lat,c.lng])), {padding:[40,40]});
+  
+  // Força a tela do Mapa a aparecer logo de cara
   showPage('page-mapa');
 }
 
