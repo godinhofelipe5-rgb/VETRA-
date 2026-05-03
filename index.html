@@ -30,37 +30,93 @@
 }
 
 /* ── MODO CINZA (ESTILO MERCOS) ── */
+/* Redesign para um branco bem limpo e profissional */
 body.theme-cinza {
-  --bg: #f4f5f8; --bg2: #ffffff; --bg-header: #898989; --bg3: #f0f2f5; --border: #d1d5db;    
-  --text: #1e293b; --muted: #64748b;     
-  --accent: #5e35b1; --accent-txt: #ffffff;
-  --success: #10b981; --danger: #ef4444; --chart-grid: #e2e8f0;
+  --bg: #f0f4f8; --bg2: #ffffff; --bg3: #f7fafc; --bg-header: #ffffff; --border: #e2e8f0;
+  --text: #0f172a; --muted: #64748b;
+  --accent: #f5a623; --accent-txt: #0f172a;
+  --success: #00c853; --danger: #ff1744; 
+  --north: #1565c0; --south: #00897b; --east: #e64a19; --west: #6a1b9a;
+  --chart-grid: #e2e8f0; --radius: 8px;
 }
-body.theme-cinza header { background: var(--bg-header); border-bottom: none; }
-body.theme-cinza header #theme-btn { color: #ffffff; }
-body.theme-cinza #g-search { background: rgba(255,255,255,0.9); color: #1e293b; border-color: transparent; }
-body.theme-cinza #g-search:focus { background: #ffffff; border-color: var(--accent); }
-body.theme-cinza .ham-btn { border-color: rgba(255,255,255,0.4); }
-body.theme-cinza .ham-btn span { background: #ffffff; }
-body.theme-cinza .bottom-nav { background: #ffffff; border-top: 1px solid var(--border); }
+body.theme-cinza header { background: #ffffff; border-bottom: 2px solid #f0f4f8; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+body.theme-cinza header #theme-btn { color: #64748b; }
+body.theme-cinza #g-search { background: #f0f4f8; color: #0f172a; border-color: #e2e8f0; }
+body.theme-cinza #g-search:focus { background: #fff; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.15); }
+body.theme-cinza #g-search::placeholder { color: #94a3b8; }
+body.theme-cinza .ham-btn { border-color: #e2e8f0; }
+body.theme-cinza .ham-btn:hover { border-color: #94a3b8; }
+body.theme-cinza .ham-btn span { background: #334155; }
+body.theme-cinza .btn-ghost { background: transparent; border-color: #e2e8f0; color: #64748b; }
+body.theme-cinza .btn-ghost:hover { border-color: #94a3b8; color: #0f172a; }
+body.theme-cinza .user-badge { border-color: #e2e8f0; color: #64748b; }
+body.theme-cinza .user-badge:hover { border-color: #ff1744; color: #ff1744; }
+body.theme-cinza .bottom-nav { background: #ffffff; border-top: 1px solid #e2e8f0; box-shadow: 0 -4px 16px rgba(0,0,0,.05); }
 body.theme-cinza .nav-item { color: #94a3b8; }
 body.theme-cinza .nav-item.active { color: var(--accent); }
-body.theme-cinza .drawer { background: #ffffff; border-left: 1px solid var(--border); }
-body.theme-cinza .drawer-head { background: var(--bg-header); color: #ffffff; border-bottom: none; }
-body.theme-cinza .drawer-title, body.theme-cinza .drawer-close { color: #ffffff; }
-body.theme-cinza .drawer-btn { background: #ffffff; border-color: var(--border); color: var(--text); }
-body.theme-cinza .drawer-btn:hover { border-color: var(--accent); color: var(--accent); background: #f8fafc; }
-body.theme-cinza .drawer-btn.active { background: rgba(94, 53, 177, 0.08); border-color: var(--accent); color: var(--accent); }
-body.theme-cinza .form-input { background: #ffffff; border-color: #cbd5e1; color: #1e293b; }
-body.theme-cinza .form-input:focus { border-color: var(--accent); }
-body.theme-cinza .modal { background: #f8fafc; }
-body.theme-cinza .modal-head, body.theme-cinza .modal-foot { background: #ffffff; border-color: var(--border); }
-body.theme-cinza .list-item, body.theme-cinza .card, body.theme-cinza .stat-card, body.theme-cinza .panel-block, body.theme-cinza .evolucao-chart-box { background: #ffffff; border-color: #cbd5e1; }
-body.theme-cinza .page-header, body.theme-cinza .page-search { background: #f8fafc; border-color: #cbd5e1; }
-body.theme-cinza .badge-faturado { background: #d1fae5; color: #047857; border: 1px solid #34d399; }
-body.theme-cinza .badge-pendente { background: #fef3c7; color: #b45309; border: 1px solid #fbbf24; }
-body.theme-cinza .badge-cancelado { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
-body.theme-cinza .badge-A { background: rgba(94, 53, 177, 0.1); color: var(--accent); border: 1px solid rgba(94, 53, 177, 0.3); }
+body.theme-cinza .nav-item.active .nav-label { color: var(--accent); }
+body.theme-cinza .drawer { background: #ffffff; border-left: 1px solid #e2e8f0; box-shadow: -8px 0 30px rgba(0,0,0,.1); }
+body.theme-cinza .drawer-head { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+body.theme-cinza .drawer-title { color: #0f172a; }
+body.theme-cinza .drawer-close { color: #64748b; }
+body.theme-cinza .drawer-close:hover { color: #0f172a; background: #f0f4f8; }
+body.theme-cinza .drawer-section { color: #94a3b8; }
+body.theme-cinza .drawer-btn { background: #f8fafc; border-color: #e2e8f0; color: #334155; }
+body.theme-cinza .drawer-btn:hover { border-color: var(--accent); color: var(--accent); background: #fffbf0; }
+body.theme-cinza .drawer-btn.active { background: rgba(245,166,35,.08); border-color: var(--accent); color: var(--accent); }
+body.theme-cinza .drawer-divider { background: #e2e8f0; }
+body.theme-cinza .form-input { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
+body.theme-cinza .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.12); }
+body.theme-cinza .form-label { color: #475569; }
+body.theme-cinza select.form-input option { background: #ffffff; color: #0f172a; }
+body.theme-cinza .card, body.theme-cinza .stat-card, body.theme-cinza .panel-block, body.theme-cinza .evolucao-chart-box, body.theme-cinza .meta-bar { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 6px rgba(0,0,0,.05); }
+body.theme-cinza .card-head { background: #f8fafc; border-bottom-color: #e2e8f0; }
+body.theme-cinza .card-title { color: #0f172a; }
+body.theme-cinza .stat-card { border-left: 3px solid transparent; }
+body.theme-cinza .list-item { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+body.theme-cinza .list-item:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(245,166,35,.12); transform: translateX(3px); }
+body.theme-cinza .list-item-name { color: #0f172a; }
+body.theme-cinza .list-item-sub { color: #64748b; }
+body.theme-cinza .page-header { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
+body.theme-cinza .page-search { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+body.theme-cinza .page-search input { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
+body.theme-cinza .page-search input:focus { border-color: var(--accent); }
+body.theme-cinza .map-toolbar { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+body.theme-cinza .abc-legend-bar { background: #f8fafc; border-bottom-color: #e2e8f0; }
+body.theme-cinza .modal { background: #f8fafc; border-color: #e2e8f0; }
+body.theme-cinza .modal-head, body.theme-cinza .modal-foot { background: #ffffff; border-color: #e2e8f0; }
+body.theme-cinza .modal-title { color: #0f172a; }
+body.theme-cinza .modal-close { color: #64748b; }
+body.theme-cinza .modal-close:hover { background: #f0f4f8; }
+body.theme-cinza .confirm-box { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 20px 60px rgba(0,0,0,.12); }
+body.theme-cinza #toast { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
+body.theme-cinza .badge-faturado { background: #e8fff0; color: #00a040; border: 1px solid #00c853; font-weight: 800; }
+body.theme-cinza .badge-pendente { background: #fff8e1; color: #e65100; border: 1px solid #ff9800; font-weight: 800; }
+body.theme-cinza .badge-cancelado { background: #ffebee; color: #c62828; border: 1px solid #ff1744; font-weight: 800; }
+body.theme-cinza .badge-A { background: #fff8e1; color: #e65100; border: 1px solid #f5a623; font-weight: 800; }
+body.theme-cinza .badge-B { background: #e3f2fd; color: #1565c0; border: 1px solid #1e88e5; font-weight: 800; }
+body.theme-cinza .badge-C { background: #f1f5f9; color: #475569; border: 1px solid #94a3b8; font-weight: 800; }
+body.theme-cinza .zone-btn[data-z="NORTE"] { background: #e3f2fd; color: #1565c0; border-color: #e3f2fd; }
+body.theme-cinza .zone-btn[data-z="SUL"]   { background: #e0f2f1; color: #00695c; border-color: #e0f2f1; }
+body.theme-cinza .zone-btn[data-z="LESTE"] { background: #fbe9e7; color: #bf360c; border-color: #fbe9e7; }
+body.theme-cinza .zone-btn[data-z="OESTE"] { background: #f3e5f5; color: #6a1b9a; border-color: #f3e5f5; }
+body.theme-cinza .zone-btn[data-z="NORTE"].active { border-color: #1565c0; box-shadow: 0 0 0 2px rgba(21,101,192,.25); }
+body.theme-cinza .zone-btn[data-z="SUL"].active   { border-color: #00695c; box-shadow: 0 0 0 2px rgba(0,105,92,.25); }
+body.theme-cinza .zone-btn[data-z="LESTE"].active { border-color: #bf360c; box-shadow: 0 0 0 2px rgba(191,54,12,.25); }
+body.theme-cinza .zone-btn[data-z="OESTE"].active { border-color: #6a1b9a; box-shadow: 0 0 0 2px rgba(106,27,154,.25); }
+body.theme-cinza .meta-progress-wrap, body.theme-cinza .panel-progress-wrap { background: #e2e8f0; }
+body.theme-cinza .date-divider { background: #f0f4f8; color: #475569; border-top-color: #e2e8f0; border-bottom-color: #e2e8f0; }
+body.theme-cinza ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+body.theme-cinza ::-webkit-scrollbar-track { background: #f0f4f8; }
+body.theme-cinza .toggle-box { background: #e2e8f0; border-color: #cbd5e1; }
+body.theme-cinza .toggle-box::after { background: #94a3b8; }
+body.theme-cinza #login-screen { background: linear-gradient(135deg, #f0f4f8 0%, #e8f4fd 100%); }
+body.theme-cinza .login-box { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 20px 60px rgba(0,0,0,.1); }
+body.theme-cinza .login-input { background: #f8fafc; border-color: #cbd5e1; color: #0f172a; }
+body.theme-cinza .login-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.15); }
+body.theme-cinza #loading-screen { background: #f0f4f8; }
+body.theme-cinza .ind-card { background: #ffffff; border-color: #e2e8f0; }
+body.theme-cinza .ind-title { color: #0f172a; }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
@@ -167,7 +223,7 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
 .page-header{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg2);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .page-header-title{font-family:var(--fh);font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
 
-.date-divider{font-family:var(--fh);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px 4px;}
+.date-divider{font-family:var(--fh);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px 4px;padding-left:12px;}
 
 /* ═══════════════ MAPA ═══════════════ */
 .map-toolbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap}
@@ -188,6 +244,8 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
 .toggle-box::after{content:'';position:absolute;top:2px;left:2px;width:11px;height:11px;background:var(--muted);border-radius:50%;transition:.2s}
 .toggle-box.on{background:rgba(245,166,35,.2);border-color:var(--accent)}
 .toggle-box.on::after{left:15px;background:var(--accent)}
+.map-dark-tile { filter: brightness(0.88) contrast(1.05); }
+body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 #map{width:100%;height:100%;z-index:0;background:var(--bg2)}
 .map-wrap{position:relative;flex:1;overflow:hidden}
 .abc-legend-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 14px;background:var(--bg3);border-bottom:1px solid var(--border);flex-shrink:0}
@@ -304,18 +362,14 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
   box-shadow:0 24px 60px rgba(0,0,0,.5);
   display:flex;flex-direction:column;align-items:center;gap:0;
 }
-.login-logo {
-  margin-bottom:28px;
-}
+.login-logo { margin-bottom:28px; }
 .login-logo img { height:32px; }
 .login-title {
   font-family:var(--fh);font-weight:800;font-size:18px;
   letter-spacing:.04em;text-transform:uppercase;
   color:var(--text);margin-bottom:6px;text-align:center;width:100%;
 }
-.login-sub {
-  font-size:13px;color:var(--muted);margin-bottom:28px;text-align:center;width:100%;
-}
+.login-sub { font-size:13px;color:var(--muted);margin-bottom:28px;text-align:center;width:100%; }
 .login-field { width:100%;margin-bottom:14px; }
 .login-label {
   display:block;font-family:var(--fh);font-size:11px;
@@ -379,7 +433,7 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
 
 <!-- LOADING SCREEN -->
 <div id="loading-screen" class="visible">
-  <img src="logo.png" alt="Vetra" style="height:32px;margin-bottom:8px">
+  <img id="loading-logo-img" src="logo.png" alt="Vetra" style="height:32px;margin-bottom:8px">
   <div class="loading-spinner"></div>
 </div>
 
@@ -387,7 +441,7 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">
-      <img src="logo.png" alt="Vetra">
+      <img id="login-logo-img" src="logo.png" alt="Vetra">
     </div>
     <div class="login-title">Bem-vindo de volta</div>
     <div class="login-sub">Entre com sua conta para continuar</div>
@@ -412,7 +466,7 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
 
 <header>
   <a href="index.html" style="text-decoration:none;display:flex;align-items:center">
-    <div class="logo"><img src="logo.png" alt="Vetra" style="height:24px"></div>
+    <div class="logo"><img id="main-logo" src="logo.png" alt="Vetra" style="height:24px"></div>
   </a>
   <div class="hdr-right">
     <button class="btn btn-ghost btn-sm" id="theme-btn" onclick="toggleTheme()" style="font-size:16px; padding:4px; border-color:transparent">☀️</button>
@@ -947,11 +1001,25 @@ function parseCurrency(val) {
   return parseFloat(s) || 0;
 }
 
+// ---- TROCA DINÂMICA DAS LOGOS ----
+function updateLogos(isCinza) {
+  const src = isCinza ? 'logo-claro.png' : 'logo.png';
+  const main = document.getElementById('main-logo');
+  const login = document.getElementById('login-logo-img');
+  const load = document.getElementById('loading-logo-img');
+  if(main) main.src = src;
+  if(login) login.src = src;
+  if(load) load.src = src;
+}
+
 function toggleTheme() {
   const isCinza = document.body.classList.toggle('theme-cinza');
   localStorage.setItem('vetra_theme', isCinza ? 'cinza' : 'escuro');
   document.getElementById('theme-btn').textContent = isCinza ? '🌙' : '☀️';
+  
+  updateLogos(isCinza);
   setMapTheme();
+  
   if(document.getElementById('page-vendas').classList.contains('active')) renderVendas();
   if(document.getElementById('page-indicadores').classList.contains('active')) renderIndicadores();
 }
@@ -963,7 +1031,11 @@ function setMapTheme() {
     ? 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
     : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
   if(mapTileLayer) gmap.removeLayer(mapTileLayer);
-  mapTileLayer = L.tileLayer(url, {attribution:'© OSM © CartoDB',maxZoom:19}).addTo(gmap);
+  mapTileLayer = L.tileLayer(url, {
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CartoDB</a>',
+    maxZoom:19,
+    className: isCinza ? '' : 'map-dark-tile'
+  }).addTo(gmap);
 }
 
 function zone4(lat,lng){return lat>=CLat?(lng>=CLng?'NORTE':'OESTE'):(lng>=CLng?'LESTE':'SUL');}
@@ -1004,7 +1076,6 @@ function bizDaysLeft(ym){
   return count;
 }
 
-// Retorna um array com os últimos 6 meses (ex: ['2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04'])
 function last6Months(){
   const ms=[];
   const d=new Date();
@@ -1297,11 +1368,11 @@ function renderIndicadores(){
   
   const isCinza = document.body.classList.contains('theme-cinza');
   const textColor = isCinza ? '#1e293b' : '#e8eaf0';
-  const cLine = isCinza ? '#10b981' : '#3ecf8e'; 
+  const cLine = isCinza ? '#00c853' : '#3ecf8e'; 
   const cGrid = isCinza ? '#e2e8f0' : 'rgba(42,47,66,.5)';
   const cTick = isCinza ? '#64748b' : '#7a8099';
 
-  // 1. CARTEIRA DE CLIENTES (Ativos = comprou nos ultimos 3 meses, Inativos = comprou antes, Prospects = nunca comprou)
+  // 1. CARTEIRA DE CLIENTES
   const trintaDiasAtraz = new Date(); trintaDiasAtraz.setMonth(trintaDiasAtraz.getMonth() - 3);
   let cAtivos=0, cInativos=0, cProspects=0;
   
@@ -1327,7 +1398,7 @@ function renderIndicadores(){
       labels: ['Ativos', 'Inativos', 'Prospects'],
       datasets: [{
         data: [cAtivos, cInativos, cProspects],
-        backgroundColor: ['#10b981', '#f5a623', '#cbd5e1'],
+        backgroundColor: isCinza ? ['#00c853', '#ff9800', '#e2e8f0'] : ['#10b981', '#f5a623', '#cbd5e1'],
         borderWidth: 0, hoverOffset: 4
       }]
     },
@@ -1338,7 +1409,7 @@ function renderIndicadores(){
     }
   });
 
-  // 2. POSITIVAÇÃO (Quantos dos "Ativos + Inativos" compraram NESTE mês)
+  // 2. POSITIVAÇÃO
   let cPositivados = 0;
   const jaComprouEsteMes = new Set();
   pedidos.filter(p=>p.status!=='cancelado' && p.data && p.data.slice(0,7)===mesAtual).forEach(p => {
@@ -1355,7 +1426,7 @@ function renderIndicadores(){
       labels: ['Positivados', 'Não Positivados'],
       datasets: [{
         data: [cPositivados, Math.max(0, naoPositivados)],
-        backgroundColor: ['#10b981', '#e2e8f0'],
+        backgroundColor: isCinza ? ['#00c853', '#f0f4f8'] : ['#10b981', '#e2e8f0'],
         borderWidth: 0, hoverOffset: 4
       }]
     },
@@ -1366,7 +1437,7 @@ function renderIndicadores(){
     }
   });
 
-  // 3. CURVA ABC (Donut)
+  // 3. CURVA ABC
   let cA=0, cB=0, cC=0;
   customers.forEach(c => {
     if(c.curva==='A') cA++; else if(c.curva==='B') cB++; else cC++;
@@ -1379,7 +1450,7 @@ function renderIndicadores(){
       labels: ['Curva A', 'Curva B', 'Curva C'],
       datasets: [{
         data: [cA, cB, cC],
-        backgroundColor: ['#5e35b1', '#a78bfa', '#e2e8f0'], // Roxo Mercos
+        backgroundColor: isCinza ? ['#f5a623', '#1e88e5', '#94a3b8'] : ['#5e35b1', '#a78bfa', '#e2e8f0'], 
         borderWidth: 0, hoverOffset: 4
       }]
     },
@@ -1390,8 +1461,8 @@ function renderIndicadores(){
     }
   });
 
-  // 4. HISTÓRICO 6 MESES (Gráfico de Linhas Mercos Verde)
-  const ultimos6 = last6Months(); // da esquerda (mais antigo) pra direita (atual)
+  // 4. HISTÓRICO 6 MESES
+  const ultimos6 = last6Months(); 
   const histData = [];
   ultimos6.forEach(m => {
     let tot = 0;
@@ -1425,7 +1496,6 @@ function renderIndicadores(){
     }
   });
 
-  // Tabela inferior do Histórico
   let tableHtml = `<table style="width:100%; border-collapse:collapse; font-size:12px; font-family:var(--fb);">
     <thead><tr style="border-bottom:1px solid var(--border)">`;
   ultimos6.forEach(m => { tableHtml += `<th style="text-align:left; padding:10px; color:var(--muted)">${fmtMesShort(m)}</th>`; });
@@ -1433,7 +1503,7 @@ function renderIndicadores(){
   
   let somaHist = 0;
   histData.forEach(v => {
-    tableHtml += `<td style="padding:10px;">${fmtBRL(v)}</td>`;
+    tableHtml += `<td style="padding:10px;color:var(--text)">${fmtBRL(v)}</td>`;
     somaHist += v;
   });
   tableHtml += `<td style="padding:10px; font-weight:bold; color:var(--accent)">${fmtBRL(somaHist)}</td></tr></tbody></table>`;
@@ -1446,7 +1516,6 @@ function renderIndicadores(){
 function renderPedidos(){
   const q=(document.getElementById('pedido-search')?.value||document.getElementById('g-search')?.value||'').toLowerCase();
   
-  // Filtro
   let list=[...pedidos];
   if(q) {
     list=list.filter(p=>{
@@ -1462,7 +1531,6 @@ function renderPedidos(){
     return;
   }
 
-  // Agrupamento por Data
   const groups = {};
   list.forEach(p => {
     const d = p.data || 'Sem Data';
@@ -1470,9 +1538,7 @@ function renderPedidos(){
     groups[d].push(p);
   });
 
-  // Ordena as chaves (datas) do mais recente pro mais antigo
   const sortedDates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
-  
   const hojeTxt = todayStr();
   const ontemTxt = yestStr();
 
@@ -1482,7 +1548,7 @@ function renderPedidos(){
     if(dataKey === hojeTxt) headerTxt = 'HOJE';
     else if(dataKey === ontemTxt) headerTxt = 'ONTEM';
     else if(dataKey === 'Sem Data') headerTxt = 'SEM DATA';
-    else headerTxt = formatDateBR(dataKey); // ex: 27/04/2026
+    else headerTxt = formatDateBR(dataKey); 
 
     html += `<div class="date-divider">${headerTxt}</div>`;
 
@@ -1827,26 +1893,23 @@ document.addEventListener('keydown',e=>{
 });
 
 // ══════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════
-// ══════════════════════════════════════════════════
 // AUTH — LOGIN / LOGOUT / SESSION
 // ══════════════════════════════════════════════════
 function showLoginScreen() {
   document.getElementById('loading-screen').classList.remove('visible');
   document.getElementById('login-screen').classList.add('visible');
-  // Apply saved theme to login screen too
-  if(localStorage.getItem('vetra_theme') === 'cinza') {
+  const isCinza = localStorage.getItem('vetra_theme') === 'cinza';
+  if(isCinza) {
     document.body.classList.add('theme-cinza');
     document.getElementById('theme-btn').textContent = '🌙';
   }
+  updateLogos(isCinza);
   setTimeout(() => document.getElementById('login-email').focus(), 300);
 }
 
 function showApp(user) {
   document.getElementById('loading-screen').classList.remove('visible');
   document.getElementById('login-screen').classList.remove('visible');
-  // Show user email abbreviated in header
   const emailShort = user.email.split('@')[0];
   document.getElementById('user-email-short').textContent = emailShort;
 }
@@ -1872,7 +1935,6 @@ async function doLogin() {
     return;
   }
 
-  // Login ok — load app
   btn.textContent = 'Carregando...';
   await initApp(data.user);
 }
@@ -1880,7 +1942,6 @@ async function doLogin() {
 async function doLogout() {
   if (!confirm('Deseja sair da sua conta?')) return;
   await supabaseClient.auth.signOut();
-  // Clear state
   customers=[]; pedidos=[]; representadas=[]; metas={};
   if(gmap) { Object.values(markerObjs).forEach(m=>gmap.removeLayer(m)); markerObjs={}; }
   showLoginScreen();
@@ -1892,10 +1953,12 @@ async function doLogout() {
 
 async function initApp(user) {
   showApp(user);
-  if(localStorage.getItem('vetra_theme') === 'cinza') {
+  const isCinza = localStorage.getItem('vetra_theme') === 'cinza';
+  if(isCinza) {
     document.body.classList.add('theme-cinza');
     document.getElementById('theme-btn').textContent = '🌙';
   }
+  updateLogos(isCinza);
   await load();
   calcABC();
   initMap();
@@ -1907,18 +1970,14 @@ async function initApp(user) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-  // Check if user already has an active session
   const { data: { session } } = await supabaseClient.auth.getSession();
 
   if (session?.user) {
-    // Already logged in — go straight to app
     await initApp(session.user);
   } else {
-    // No session — show login
     showLoginScreen();
   }
 
-  // Listen for auth changes (token expiry, logout from another tab, etc.)
   supabaseClient.auth.onAuthStateChange((event, session) => {
     if (event === 'SIGNED_OUT') {
       showLoginScreen();
