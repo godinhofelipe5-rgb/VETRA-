@@ -1050,7 +1050,7 @@ function setMapTheme() {
     : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
   if(mapTileLayer) gmap.removeLayer(mapTileLayer);
   mapTileLayer = L.tileLayer(url, {
-    attribution:'© OSM © CartoDB',
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CartoDB</a>',
     maxZoom:19,
     className: isCinza ? '' : 'map-dark-tile'
   }).addTo(gmap);
@@ -1121,30 +1121,37 @@ function mkCustomer(r){
 // ══════════════════════════════════════════════════
 async function load(){
   try{
-    const[rCli,rPed,rRep,rMet,rVend]=await Promise.all([
-      supabaseClient.from('clientes').select('*').catch(()=>({data:[]})),
-      supabaseClient.from('pedidos').select('*').catch(()=>({data:[]})),
-      supabaseClient.from('representadas').select('*').catch(()=>({data:[]})),
-      supabaseClient.from('metas').select('*').catch(()=>({data:[]})),
-      supabaseClient.from('vendedores').select('*').catch(()=>({data:[]}))
+    const [rCli, rPed, rRep, rMet, rVend] = await Promise.all([
+      supabaseClient.from('clientes').select('*'),
+      supabaseClient.from('pedidos').select('*'),
+      supabaseClient.from('representadas').select('*'),
+      supabaseClient.from('metas').select('*'),
+      supabaseClient.from('vendedores').select('*')
     ]);
-    pedidos=rPed?.data||[]; 
-    representadas=rRep?.data||[]; 
-    vendedores=rVend?.data||[];
-    metas={};
-    (rMet?.data||[]).forEach(m=>metas[m.mes]=m.valor);
-
-    const saved=rCli?.data||[];
-    if(saved.length===0){
-      customers=RAW_CUSTOMERS.map(r=>mkCustomer(r));
-      await supabaseClient.from('clientes').insert(customers).catch(e=>console.log(e));
-    }else{
-      const savedNames=new Set(saved.map(c=>c.name));
-      const newOnes=RAW_CUSTOMERS.filter(r=>!savedNames.has(r.name)).map(r=>mkCustomer(r));
-      customers=[...saved,...newOnes];
-      if(newOnes.length>0)await supabaseClient.from('clientes').insert(newOnes).catch(e=>console.log(e));
+    pedidos = rPed.data || []; 
+    representadas = rRep.data || []; 
+    vendedores = rVend.data || [];
+    metas = {};
+    if(rMet.data) {
+        rMet.data.forEach(m => metas[m.mes] = m.valor);
     }
-  }catch(e){console.error('Supabase error',e);toast('Erro ao carregar do banco','error');}
+
+    const saved = rCli.data || [];
+    if(saved.length === 0){
+      customers = RAW_CUSTOMERS.map(r => mkCustomer(r));
+      await supabaseClient.from('clientes').insert(customers);
+    }else{
+      const savedNames = new Set(saved.map(c => c.name));
+      const newOnes = RAW_CUSTOMERS.filter(r => !savedNames.has(r.name)).map(r => mkCustomer(r));
+      customers = [...saved, ...newOnes];
+      if(newOnes.length > 0) {
+          await supabaseClient.from('clientes').insert(newOnes);
+      }
+    }
+  }catch(e){
+      console.error('Supabase error', e);
+      toast('Erro ao carregar do banco', 'error');
+  }
 }
 
 // ══════════════════════════════════════════════════
@@ -1259,7 +1266,7 @@ function renderMapMarkers(){
 async function toggleVisited(id){
   const c=customers.find(x=>x.id===id);if(!c)return;
   c.visited=!c.visited;if(c.visited)c.lastvisit=new Date().toISOString();
-  await supabaseClient.from('clientes').update({visited:c.visited,lastvisit:c.lastvisit}).eq('id',id);
+  await supabaseClient.from('clientes').update({visited:c.visited,lastvisit:c.lastvisit});
   renderMapMarkers();
   if(c.visited){gmap.closePopup();toast(`✔ ${c.name} visitado`,'success');}
 }
@@ -1407,6 +1414,10 @@ function renderVendas(){
     ${previsaoFim>0?`<div class="panel-block"><div class="panel-lbl">Previsão do mês</div><div class="panel-val" style="font-size:18px;color:var(--accent)">${fmtBRL(previsaoFim)}</div><div class="panel-sub">No ritmo atual</div></div>`:''}`;
 
   document.getElementById('meta-bar').innerHTML=`<div class="meta-header" style="margin-bottom:${metaMes>0?'10px':'0'}"><span class="meta-title">🎯 Meta — ${fmtMesShort(mes)}</span><div style="font-size:12px;color:var(--muted)">${metaMes>0?`<span style="color:var(--text);font-weight:600">${fmtBRL(vendidoTotal)}</span> de <span style="color:var(--text);font-weight:600">${fmtBRL(metaMes)}</span>`:''}</div></div>${metaMes>0?`<div class="meta-progress-wrap"><div class="meta-progress" style="width:${pct}%"></div></div><div class="meta-values"><div><span style="color:${pctColor}">${pct}% realizado</span></div><div>Meta: <span>${fmtBRL(metaMes)}</span></div></div>`:'<div style="font-size:12px;color:var(--muted)">Meta não definida — <button class="btn btn-ghost btn-sm" onclick="openMetaModal()" style="display:inline-flex">Definir agora</button></div>'}`;
+
+  const sorted=[...customers].filter(c=>c.totalvendas>0).sort((a,b)=>b.totalvendas-a.totalvendas).slice(0,20);
+  if(!sorted.length){document.getElementById('abc-table').innerHTML=`<div class="empty-state" style="padding:24px"><div class="empty-icon">📦</div><div class="empty-sub">Cadastre pedidos para curva ABC.</div></div>`;return;}
+  document.getElementById('abc-table').innerHTML=`<table style="width:100%;border-collapse:collapse"><thead><tr style="border-bottom:1px solid var(--border)"><th style="padding:10px 16px;text-align:left;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Cliente</th><th style="padding:10px 8px;text-align:right;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Total</th><th style="padding:10px 16px;text-align:center;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Curva</th></tr></thead><tbody>${sorted.map(c=>`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-family:var(--fh);font-weight:700;font-size:13px">${esc(c.name)}</td><td style="padding:10px 8px;text-align:right;font-size:12px;color:var(--accent);font-weight:600">${fmtBRL(c.totalvendas)}</td><td style="padding:10px 16px;text-align:center"><span class="badge badge-${c.curva}">${c.curva}</span></td></tr>`).join('')}</tbody></table>`;
 }
 
 // ══════════════════════════════════════════════════
@@ -1604,7 +1615,7 @@ async function saveVendedor() {
     obs: document.getElementById('v-obs').value.trim()
   };
 
-  await supabaseClient.from('vendedores').upsert(v).catch(e=>console.log(e));
+  await supabaseClient.from('vendedores').upsert(v);
   const idx = vendedores.findIndex(x=>x.id===id);
   if(idx > -1) vendedores[idx] = v; else vendedores.push(v);
   
@@ -1616,7 +1627,7 @@ async function saveVendedor() {
 function deleteVendedor() {
   const id = document.getElementById('v-id').value;
   showConfirm('Excluir Vendedor', 'Deseja excluir?', async () => {
-    await supabaseClient.from('vendedores').delete().eq('id', id).catch(e=>console.log(e));
+    await supabaseClient.from('vendedores').delete().eq('id', id);
     vendedores = vendedores.filter(x=>x.id!==id);
     closeModal('modal-vendedor');
     renderVendedores();
@@ -1858,7 +1869,6 @@ function openClienteDetalhe(id) {
   const numPedidos = pedCli.length;
   const ticketMedio = numPedidos ? totalGasto / numPedidos : 0;
 
-  // Calcula Ranking
   const allTotals = customers.map(cust => {
       const tot = pedidos.filter(p=>p.clienteid === cust.id && p.status!=='cancelado').reduce((acc, p)=>acc+(p.total||0), 0);
       return { id: cust.id, tot };
@@ -1866,7 +1876,6 @@ function openClienteDetalhe(id) {
   const rankObj = allTotals.findIndex(x => x.id === id);
   const rank = rankObj > -1 && totalGasto > 0 ? (rankObj + 1) + 'º' : '—';
 
-  // Dias sem comprar
   let diasSemComprar = 'Nunca comprou';
   if (numPedidos > 0) {
       const datas = pedCli.map(p => new Date(p.data)).filter(d => !isNaN(d));
@@ -1878,7 +1887,6 @@ function openClienteDetalhe(id) {
       }
   }
 
-  // Compras por Representada
   const repTotals = {};
   pedCli.forEach(p => {
       const rNome = representadas.find(r => r.id === p.representadaid)?.nome || 'Outras / S/N';
@@ -1920,7 +1928,6 @@ function openClienteDetalhe(id) {
   `;
   document.getElementById('detalhe-body').innerHTML = html;
   
-  // Botão editar
   document.getElementById('detalhe-edit-btn').onclick = () => {
       closeModal('modal-cliente-detalhe');
       openClienteModal(id);
