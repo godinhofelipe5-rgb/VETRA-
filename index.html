@@ -21,8 +21,7 @@
 :root{
   --bg:#0f1117; --bg2:#171b26; --bg-header:#171b26; --bg3:#1e2333; --border:#2a2f42;
   --text:#e8eaf0; --muted:#7a8099; --accent:#f5a623; --accent-txt:#0f1117;
-  --north:#4a9eff; --south:#3ecf8e; --east:#ff7043; --west:#b57bee;
-  --danger:#ff4444; --success:#3ecf8e; --radius:8px;
+  --success:#3ecf8e; --danger:#ff4444; --radius:8px;
   --abc-a:#f5a623; --abc-b:#4a9eff; --abc-c:#7a8099;
   --chart-grid: rgba(42,47,66,.5);
   --fh:'Barlow Condensed',sans-serif; --fb:'Barlow',sans-serif;
@@ -30,16 +29,13 @@
 }
 
 /* ── MODO CINZA (ESTILO MERCOS) ── */
-/* Redesign para um branco bem limpo e profissional */
 body.theme-cinza {
-  --bg: #f0f4f8; --bg2: #ffffff; --bg3: #f7fafc; --bg-header: #ffffff; --border: #e2e8f0;
-  --text: #0f172a; --muted: #64748b;
+  --bg: #f0f4f8; --bg2: #ffffff; --bg3: #f7fafc; --bg-header: #ffffff; --border: #e2e8f0;    
+  --text: #0f172a; --muted: #64748b;     
   --accent: #f5a623; --accent-txt: #0f172a;
-  --success: #00c853; --danger: #ff1744; 
-  --north: #1565c0; --south: #00897b; --east: #e64a19; --west: #6a1b9a;
-  --chart-grid: #e2e8f0; --radius: 8px;
+  --success: #00c853; --danger: #ff1744; --chart-grid: #e2e8f0; --radius: 8px;
 }
-body.theme-cinza header { background: #ffffff; border-bottom: 2px solid #f0f4f8; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+body.theme-cinza header { background: var(--bg-header); border-bottom: 2px solid #f0f4f8; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
 body.theme-cinza header #theme-btn { color: #64748b; }
 body.theme-cinza #g-search { background: #f0f4f8; color: #0f172a; border-color: #e2e8f0; }
 body.theme-cinza #g-search:focus { background: #fff; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.15); }
@@ -56,15 +52,12 @@ body.theme-cinza .nav-item { color: #94a3b8; }
 body.theme-cinza .nav-item.active { color: var(--accent); }
 body.theme-cinza .nav-item.active .nav-label { color: var(--accent); }
 body.theme-cinza .drawer { background: #ffffff; border-left: 1px solid #e2e8f0; box-shadow: -8px 0 30px rgba(0,0,0,.1); }
-body.theme-cinza .drawer-head { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+body.theme-cinza .drawer-head { background: #f8fafc; color: #0f172a; border-bottom: 1px solid #e2e8f0; }
 body.theme-cinza .drawer-title { color: #0f172a; }
 body.theme-cinza .drawer-close { color: #64748b; }
-body.theme-cinza .drawer-close:hover { color: #0f172a; background: #f0f4f8; }
-body.theme-cinza .drawer-section { color: #94a3b8; }
-body.theme-cinza .drawer-btn { background: #f8fafc; border-color: #e2e8f0; color: #334155; }
+body.theme-cinza .drawer-btn { background: #f8fafc; border-color: var(--border); color: #334155; }
 body.theme-cinza .drawer-btn:hover { border-color: var(--accent); color: var(--accent); background: #fffbf0; }
-body.theme-cinza .drawer-btn.active { background: rgba(245,166,35,.08); border-color: var(--accent); color: var(--accent); }
-body.theme-cinza .drawer-divider { background: #e2e8f0; }
+body.theme-cinza .drawer-btn.active { background: rgba(245,166,35,0.08); border-color: var(--accent); color: var(--accent); }
 body.theme-cinza .form-input { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
 body.theme-cinza .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,166,35,.12); }
 body.theme-cinza .form-label { color: #475569; }
@@ -75,14 +68,15 @@ body.theme-cinza .card-title { color: #0f172a; }
 body.theme-cinza .stat-card { border-left: 3px solid transparent; }
 body.theme-cinza .list-item { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
 body.theme-cinza .list-item:hover { border-color: var(--accent); box-shadow: 0 2px 12px rgba(245,166,35,.12); transform: translateX(3px); }
-body.theme-cinza .list-item-name { color: #0f172a; }
-body.theme-cinza .list-item-sub { color: #64748b; }
-body.theme-cinza .page-header { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
-body.theme-cinza .page-search { background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
-body.theme-cinza .page-search input { background: #ffffff; border-color: #cbd5e1; color: #0f172a; }
-body.theme-cinza .page-search input:focus { border-color: var(--accent); }
-body.theme-cinza .map-toolbar { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
-body.theme-cinza .abc-legend-bar { background: #f8fafc; border-bottom-color: #e2e8f0; }
+body.theme-cinza .list-item-name, body.theme-cinza .card-title { color: #0f172a; }
+body.theme-cinza .page-header, body.theme-cinza .page-search { background: #ffffff; border-color: #e2e8f0; }
+body.theme-cinza .date-divider { background: #f0f4f8; color: #475569; border-top-color: #e2e8f0; border-bottom-color: #e2e8f0; }
+body.theme-cinza .badge-faturado { background: #e8fff0; color: #00a040; border: 1px solid #00c853; }
+body.theme-cinza .badge-pendente { background: #fff8e1; color: #e65100; border: 1px solid #ff9800; }
+body.theme-cinza .badge-cancelado { background: #ffebee; color: #c62828; border: 1px solid #ff1744; }
+body.theme-cinza .badge-A { background: #fff8e1; color: #e65100; border: 1px solid #f5a623; }
+body.theme-cinza .badge-B { background: #e3f2fd; color: #1565c0; border: 1px solid #1e88e5; }
+body.theme-cinza .badge-C { background: #f1f5f9; color: #475569; border: 1px solid #94a3b8; }
 body.theme-cinza .modal { background: #f8fafc; border-color: #e2e8f0; }
 body.theme-cinza .modal-head, body.theme-cinza .modal-foot { background: #ffffff; border-color: #e2e8f0; }
 body.theme-cinza .modal-title { color: #0f172a; }
@@ -90,22 +84,11 @@ body.theme-cinza .modal-close { color: #64748b; }
 body.theme-cinza .modal-close:hover { background: #f0f4f8; }
 body.theme-cinza .confirm-box { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 20px 60px rgba(0,0,0,.12); }
 body.theme-cinza #toast { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
-body.theme-cinza .badge-faturado { background: #e8fff0; color: #00a040; border: 1px solid #00c853; font-weight: 800; }
-body.theme-cinza .badge-pendente { background: #fff8e1; color: #e65100; border: 1px solid #ff9800; font-weight: 800; }
-body.theme-cinza .badge-cancelado { background: #ffebee; color: #c62828; border: 1px solid #ff1744; font-weight: 800; }
-body.theme-cinza .badge-A { background: #fff8e1; color: #e65100; border: 1px solid #f5a623; font-weight: 800; }
-body.theme-cinza .badge-B { background: #e3f2fd; color: #1565c0; border: 1px solid #1e88e5; font-weight: 800; }
-body.theme-cinza .badge-C { background: #f1f5f9; color: #475569; border: 1px solid #94a3b8; font-weight: 800; }
-body.theme-cinza .zone-btn[data-z="NORTE"] { background: #e3f2fd; color: #1565c0; border-color: #e3f2fd; }
-body.theme-cinza .zone-btn[data-z="SUL"]   { background: #e0f2f1; color: #00695c; border-color: #e0f2f1; }
-body.theme-cinza .zone-btn[data-z="LESTE"] { background: #fbe9e7; color: #bf360c; border-color: #fbe9e7; }
-body.theme-cinza .zone-btn[data-z="OESTE"] { background: #f3e5f5; color: #6a1b9a; border-color: #f3e5f5; }
-body.theme-cinza .zone-btn[data-z="NORTE"].active { border-color: #1565c0; box-shadow: 0 0 0 2px rgba(21,101,192,.25); }
-body.theme-cinza .zone-btn[data-z="SUL"].active   { border-color: #00695c; box-shadow: 0 0 0 2px rgba(0,105,92,.25); }
-body.theme-cinza .zone-btn[data-z="LESTE"].active { border-color: #bf360c; box-shadow: 0 0 0 2px rgba(191,54,12,.25); }
-body.theme-cinza .zone-btn[data-z="OESTE"].active { border-color: #6a1b9a; box-shadow: 0 0 0 2px rgba(106,27,154,.25); }
+body.theme-cinza .map-toolbar { background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+body.theme-cinza .abc-legend-bar { background: #f8fafc; border-bottom-color: #e2e8f0; }
+body.theme-cinza .map-dark-tile { filter: none !important; }
+body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 body.theme-cinza .meta-progress-wrap, body.theme-cinza .panel-progress-wrap { background: #e2e8f0; }
-body.theme-cinza .date-divider { background: #f0f4f8; color: #475569; border-top-color: #e2e8f0; border-bottom-color: #e2e8f0; }
 body.theme-cinza ::-webkit-scrollbar-thumb { background: #cbd5e1; }
 body.theme-cinza ::-webkit-scrollbar-track { background: #f0f4f8; }
 body.theme-cinza .toggle-box { background: #e2e8f0; border-color: #cbd5e1; }
@@ -117,6 +100,9 @@ body.theme-cinza .login-input:focus { border-color: var(--accent); box-shadow: 0
 body.theme-cinza #loading-screen { background: #f0f4f8; }
 body.theme-cinza .ind-card { background: #ffffff; border-color: #e2e8f0; }
 body.theme-cinza .ind-title { color: #0f172a; }
+/* Botões de cidade claros */
+body.theme-cinza .city-btn { background: #e2e8f0; color: #475569; border-color: #e2e8f0; }
+body.theme-cinza .city-btn.active { background: var(--accent); color: var(--accent-txt); border-color: var(--accent); }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
@@ -227,17 +213,9 @@ header{background:var(--bg-header);border-bottom:1px solid var(--border);padding
 
 /* ═══════════════ MAPA ═══════════════ */
 .map-toolbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap}
-.zone-btn{font-family:var(--fh);font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:2px solid transparent;border-radius:var(--radius);padding:5px 10px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px}
-.zone-btn[data-z="NORTE"]{background:var(--north-dim);color:var(--north);border-color:var(--north-dim)}
-.zone-btn[data-z="SUL"]{background:var(--south-dim);color:var(--south);border-color:var(--south-dim)}
-.zone-btn[data-z="LESTE"]{background:var(--east-dim);color:var(--east);border-color:var(--east-dim)}
-.zone-btn[data-z="OESTE"]{background:var(--west-dim);color:var(--west);border-color:var(--west-dim)}
-.zone-btn.active{box-shadow:0 0 10px currentColor}
-.zone-btn[data-z="NORTE"].active{border-color:var(--north)}
-.zone-btn[data-z="SUL"].active{border-color:var(--south)}
-.zone-btn[data-z="LESTE"].active{border-color:var(--east)}
-.zone-btn[data-z="OESTE"].active{border-color:var(--west)}
-.zbadge{background:rgba(255,255,255,.18);border-radius:30px;font-size:10px;padding:1px 6px;font-weight:700}
+.city-btn{font-family:var(--fh);font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:2px solid transparent;border-radius:var(--radius);padding:5px 10px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:4px;background:var(--bg3);color:var(--muted);border-color:var(--bg3)}
+.city-btn.active{background:var(--accent);color:var(--accent-txt);border-color:var(--accent);box-shadow:0 0 10px rgba(245,166,35,0.4)}
+.zbadge{background:rgba(255,255,255,.18);border-radius:30px;font-size:10px;padding:1px 6px;font-weight:700;color:currentColor}
 .abc-toggle{display:flex;align-items:center;gap:6px;margin-left:auto}
 .abc-toggle-label{font-family:var(--fh);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .toggle-box{width:30px;height:17px;background:var(--bg3);border-radius:10px;border:1px solid var(--border);position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
@@ -277,6 +255,8 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 .panel-val{font-family:var(--fh);font-weight:900;font-size:22px;color:var(--text);line-height:1;margin-bottom:2px}
 .panel-sub{font-size:11px;color:var(--muted);margin-top:2px}
 .panel-val.accent{color:var(--accent)}
+.panel-val.green{color:var(--success)}
+.panel-val.danger{color:var(--danger)}
 .panel-progress-wrap{background:var(--bg3);border-radius:30px;height:8px;overflow:hidden;margin:8px 0 4px}
 .panel-progress{height:100%;border-radius:30px;background:linear-gradient(90deg,var(--accent),#ff9d00);transition:width .6s}
 .panel-pct{font-family:var(--fh);font-weight:900;font-size:13px;color:var(--accent)}
@@ -470,10 +450,6 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   </a>
   <div class="hdr-right">
     <button class="btn btn-ghost btn-sm" id="theme-btn" onclick="toggleTheme()" style="font-size:16px; padding:4px; border-color:transparent">☀️</button>
-    <input id="g-search" placeholder="🔍 Buscar..." oninput="onGlobalSearch(this.value)">
-    <button class="user-badge" id="user-badge" onclick="doLogout()" title="Sair da conta">
-      <span id="user-email-short">👤</span> Sair
-    </button>
     <button class="ham-btn" id="ham-btn" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
     </button>
@@ -500,10 +476,17 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <button class="drawer-btn" id="drawer-rep" onclick="openDrawerPage('page-rep')">
       <span class="drawer-btn-icon">🏢</span> Representadas
     </button>
+    <button class="drawer-btn" id="drawer-vendedores" onclick="openDrawerPage('page-vendedores')">
+      <span class="drawer-btn-icon">🧑‍💼</span> Vendedores
+    </button>
     <div class="drawer-divider"></div>
-    <div class="drawer-section">Dados</div>
+    <div class="drawer-section">Conta</div>
+    <div style="padding:8px 14px;font-size:12px;color:var(--muted);font-family:var(--fh);letter-spacing:.04em" id="drawer-user-email"></div>
     <button class="drawer-btn drawer-btn-export" onclick="doExport();closeDrawer()">
       <span class="drawer-btn-icon">⬇</span> Exportar backup
+    </button>
+    <button class="drawer-btn" onclick="doLogout()" style="color:var(--danger);border-color:rgba(255,68,68,.3);margin-top:4px">
+      <span class="drawer-btn-icon">🚪</span> Sair da conta
     </button>
   </div>
 </div>
@@ -512,21 +495,25 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 
   <div class="page" id="page-mapa">
     <div class="map-toolbar">
-      <button class="zone-btn" data-z="NORTE" onclick="toggleZone('NORTE')">▲ Norte <span class="zbadge" id="b-NORTE">0</span></button>
-      <button class="zone-btn" data-z="SUL"   onclick="toggleZone('SUL')">▼ Sul <span class="zbadge" id="b-SUL">0</span></button>
-      <button class="zone-btn" data-z="LESTE" onclick="toggleZone('LESTE')">▶ Leste <span class="zbadge" id="b-LESTE">0</span></button>
-      <button class="zone-btn" data-z="OESTE" onclick="toggleZone('OESTE')">◀ Oeste <span class="zbadge" id="b-OESTE">0</span></button>
-      <button class="btn btn-ghost btn-sm" onclick="clearMapZones()" style="margin-left:4px">✕</button>
+      <!-- Search bar that filters markers -->
+      <div style="position:relative;flex:1;max-width:200px">
+        <input id="map-search" class="form-input" style="padding:5px 10px;font-size:12px;height:auto" placeholder="🔍 Buscar no mapa..."
+               oninput="onMapSearch(this.value)" autocomplete="off">
+        <button id="map-search-clear" onclick="clearMapSearch()" style="display:none;position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0">✕</button>
+      </div>
+      <!-- City filter buttons (dynamic) -->
+      <div id="cidade-btns" style="display:flex;gap:5px;flex-wrap:wrap;align-items:center"></div>
+      <button class="btn btn-ghost btn-sm" onclick="clearMapFilters()" style="flex-shrink:0">✕ Limpar</button>
       <div class="abc-toggle">
-        <span class="abc-toggle-label">Curva ABC</span>
+        <span class="abc-toggle-label">ABC</span>
         <div class="toggle-box" id="abc-toggle" onclick="toggleABC()"></div>
       </div>
     </div>
     <div class="abc-legend-bar" id="abc-legend-bar" style="display:none">
       <span style="font-family:var(--fh);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-right:4px">Curva ABC</span>
-      <div class="abc-leg-item"><div class="abc-dot" style="background:var(--abc-a)"></div>A — Top 80% receita</div>
+      <div class="abc-leg-item"><div class="abc-dot" style="background:var(--abc-a)"></div>A — Top 80%</div>
       <div class="abc-leg-item"><div class="abc-dot" style="background:var(--abc-b)"></div>B — Médio</div>
-      <div class="abc-leg-item"><div class="abc-dot" style="background:var(--abc-c)"></div>C — Baixo volume</div>
+      <div class="abc-leg-item"><div class="abc-dot" style="background:var(--abc-c)"></div>C — Baixo</div>
     </div>
     <div class="map-wrap"><div id="map"></div></div>
   </div>
@@ -608,6 +595,17 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="page-scroll" id="pedidos-list" style="padding:12px"></div>
   </div>
 
+  <div class="page" id="page-vendedores">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn btn-ghost btn-sm" onclick="closeDrawerPage()">← Voltar</button>
+        <span class="page-header-title">🧑‍💼 Vendedores</span>
+      </div>
+      <button class="btn btn-accent" onclick="openVendedorModal()">+ Novo</button>
+    </div>
+    <div class="page-scroll" id="vendedores-list" style="padding:12px"></div>
+  </div>
+
   <div class="page" id="page-clientes">
     <div class="page-header">
       <div style="display:flex;align-items:center;gap:10px">
@@ -620,7 +618,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       </div>
     </div>
     <div class="page-search">
-      <input id="cliente-search" placeholder="🔍 Buscar cliente, endereço..." oninput="renderClientes()">
+      <input id="cliente-search" placeholder="🔍 Buscar cliente, cidade..." oninput="renderClientes()">
     </div>
     <div class="page-scroll" id="clientes-list" style="padding:12px"></div>
   </div>
@@ -650,6 +648,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   </button>
 </nav>
 
+<!-- MODAL: PEDIDO -->
 <div class="modal-back hidden" id="modal-pedido" onclick="handleModalBackdrop(event,'modal-pedido')">
   <div class="modal" style="max-width:600px">
     <div class="modal-head">
@@ -679,6 +678,12 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       <div class="form-group">
         <label class="form-label">Representada</label>
         <select class="form-input form-select" id="p-rep"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vendedor (Comissão)</label>
+        <select class="form-input form-select" id="p-vendedor">
+          <option value="">— Sem vendedor —</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="form-label">Status</label>
@@ -717,6 +722,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   </div>
 </div>
 
+<!-- MODAL: CLIENTE EDITAR -->
 <div class="modal-back hidden" id="modal-cliente" onclick="handleModalBackdrop(event,'modal-cliente')">
   <div class="modal">
     <div class="modal-head">
@@ -731,7 +737,11 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       </div>
       <div class="form-group">
         <label class="form-label">Endereço</label>
-        <input class="form-input" id="c-addr" placeholder="Rua, número, bairro, cidade">
+        <input class="form-input" id="c-addr" placeholder="Rua, número, bairro">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cidade</label>
+        <input class="form-input" id="c-cidade" placeholder="Ex: Bento Gonçalves, Garibaldi...">
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -762,6 +772,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   </div>
 </div>
 
+<!-- MODAL: REPRESENTADA -->
 <div class="modal-back hidden" id="modal-rep" onclick="handleModalBackdrop(event,'modal-rep')">
   <div class="modal">
     <div class="modal-head">
@@ -813,6 +824,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   </div>
 </div>
 
+<!-- MODAL: META -->
 <div class="modal-back hidden" id="modal-meta" onclick="handleModalBackdrop(event,'modal-meta')">
   <div class="modal" style="max-width:380px">
     <div class="modal-head">
@@ -846,6 +858,62 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="confirm-btns">
       <button class="btn btn-ghost" onclick="closeConfirm()">Cancelar</button>
       <button class="btn btn-danger" id="confirm-ok">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VENDEDOR -->
+<div class="modal-back hidden" id="modal-vendedor" onclick="handleModalBackdrop(event,'modal-vendedor')">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-head">
+      <span class="modal-title" id="vendedor-modal-title">Novo Vendedor</span>
+      <button class="modal-close" onclick="closeModal('modal-vendedor')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="v-id">
+      <div class="form-group">
+        <label class="form-label">Nome do Vendedor</label>
+        <input class="form-input" id="v-nome" placeholder="Ex: João Silva">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">% Comissão Padrão</label>
+          <input class="form-input" id="v-comissao" type="number" step="0.1" placeholder="Ex: 3">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" id="v-tel" placeholder="(54) 9xxxx-xxxx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observações</label>
+        <input class="form-input" id="v-obs" placeholder="Ex: Região Sul, metas...">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-danger" id="v-del-btn" onclick="deleteVendedor()" style="display:none">🗑 Excluir</button>
+      <div class="modal-fr">
+        <button class="btn btn-ghost" onclick="closeModal('modal-vendedor')">Cancelar</button>
+        <button class="btn btn-accent" onclick="saveVendedor()">💾 Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CLIENTE DETALHE (resumo estilo Mercos) -->
+<div class="modal-back hidden" id="modal-cliente-detalhe" onclick="handleModalBackdrop(event,'modal-cliente-detalhe')">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-head">
+      <span class="modal-title" id="detalhe-nome" style="font-size:20px;color:var(--accent)">Cliente</span>
+      <button class="modal-close" onclick="closeModal('modal-cliente-detalhe')">✕</button>
+    </div>
+    <div class="modal-body" id="detalhe-body" style="padding:0"></div>
+    <div class="modal-foot">
+      <div></div>
+      <div class="modal-fr">
+        <button class="btn btn-ghost" onclick="closeModal('modal-cliente-detalhe')">Fechar</button>
+        <button class="btn btn-accent" id="detalhe-edit-btn">✏ Editar Cadastro</button>
+      </div>
     </div>
   </div>
 </div>
@@ -966,18 +1034,16 @@ const RAW_CUSTOMERS = [
   {name:"DX",address:"Rua Refati - Maria Goretti, BG",lat:-29.158229,lng:-51.526279},
 ];
 
-// ══════════════════════════════════════════════════
-// CONSTANTS & STATE
-// ══════════════════════════════════════════════════
 const CLat=-29.1710, CLng=-51.5192;
-const ZC={NORTE:'#4a9eff',SUL:'#3ecf8e',LESTE:'#ff7043',OESTE:'#b57bee'};
 const ABC_COLOR={A:'#f5a623',B:'#4a9eff',C:'#7a8099'};
 
-let customers=[], pedidos=[], representadas=[], metas={};
-let activeZones=new Set(), abcMode=false;
+let customers=[], pedidos=[], representadas=[], metas={}, vendedores=[];
+let abcMode=false;
+let mapSearchText = '';
+let activeCity = null;
 let gmap, mapTileLayer, markerObjs={};
 let salesChart=null, chartCart=null, chartPosit=null, chartAbc=null, chartHist=null;
-let currentEditPedido=null, currentEditCliente=null, currentEditRep=null;
+let currentEditPedido=null, currentEditCliente=null, currentEditRep=null, currentEditVend=null;
 let confirmCb=null;
 let lastMainPage='page-mapa'; 
 let isAddingClientFromPedido = false; 
@@ -1001,7 +1067,6 @@ function parseCurrency(val) {
   return parseFloat(s) || 0;
 }
 
-// ---- TROCA DINÂMICA DAS LOGOS ----
 function updateLogos(isCinza) {
   const src = isCinza ? 'logo-claro.png' : 'logo.png';
   const main = document.getElementById('main-logo');
@@ -1032,13 +1097,12 @@ function setMapTheme() {
     : 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
   if(mapTileLayer) gmap.removeLayer(mapTileLayer);
   mapTileLayer = L.tileLayer(url, {
-    attribution:'© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CartoDB</a>',
+    attribution:'© OSM © CartoDB',
     maxZoom:19,
     className: isCinza ? '' : 'map-dark-tile'
   }).addTo(gmap);
 }
 
-function zone4(lat,lng){return lat>=CLat?(lng>=CLng?'NORTE':'OESTE'):(lng>=CLng?'LESTE':'SUL');}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
 function esc(s){return(s||'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');}
 function isCoord(lat,lng){return lat!=null&&lng!=null&&!isNaN(lat)&&!isNaN(lng)&&lat>=-90&&lat<=90;}
@@ -1086,9 +1150,15 @@ function last6Months(){
   return ms;
 }
 
+// Extract City from RAW Address if not provided
 function mkCustomer(r){
-  return{id:uid(),name:r.name,address:r.address,lat:r.lat||null,lng:r.lng||null,
-    zone:(r.lat&&r.lng)?zone4(r.lat,r.lng):null,notes:'',tel:'',visited:false,lastvisit:null};
+  let cid = 'Outras';
+  if(r.address.includes('BG')) cid = 'Bento Gonçalves';
+  else if(r.address.includes('Garibaldi')) cid = 'Garibaldi';
+  else if(r.address.includes('Caxias')) cid = 'Caxias do Sul';
+
+  return{id:uid(),name:r.name,address:r.address,cidade:cid,lat:r.lat||null,lng:r.lng||null,
+    notes:'',tel:'',visited:false,lastvisit:null};
 }
 
 // ══════════════════════════════════════════════════
@@ -1096,23 +1166,29 @@ function mkCustomer(r){
 // ══════════════════════════════════════════════════
 async function load(){
   try{
-    const[rCli,rPed,rRep,rMet]=await Promise.all([
-      supabaseClient.from('clientes').select('*'),
-      supabaseClient.from('pedidos').select('*'),
-      supabaseClient.from('representadas').select('*'),
-      supabaseClient.from('metas').select('*')
+    // Adicionado tratamento de erro individual caso a tabela Vendedores ainda não exista
+    const[rCli,rPed,rRep,rMet,rVend]=await Promise.all([
+      supabaseClient.from('clientes').select('*').catch(()=>({data:[]})),
+      supabaseClient.from('pedidos').select('*').catch(()=>({data:[]})),
+      supabaseClient.from('representadas').select('*').catch(()=>({data:[]})),
+      supabaseClient.from('metas').select('*').catch(()=>({data:[]})),
+      supabaseClient.from('vendedores').select('*').catch(()=>({data:[]}))
     ]);
-    pedidos=rPed.data||[]; representadas=rRep.data||[]; metas={};
-    (rMet.data||[]).forEach(m=>metas[m.mes]=m.valor);
-    const saved=rCli.data||[];
+    pedidos=rPed?.data||[]; 
+    representadas=rRep?.data||[]; 
+    vendedores=rVend?.data||[];
+    metas={};
+    (rMet?.data||[]).forEach(m=>metas[m.mes]=m.valor);
+
+    const saved=rCli?.data||[];
     if(saved.length===0){
       customers=RAW_CUSTOMERS.map(r=>mkCustomer(r));
-      await supabaseClient.from('clientes').insert(customers);
+      await supabaseClient.from('clientes').insert(customers).catch(e=>console.log(e));
     }else{
       const savedNames=new Set(saved.map(c=>c.name));
       const newOnes=RAW_CUSTOMERS.filter(r=>!savedNames.has(r.name)).map(r=>mkCustomer(r));
       customers=[...saved,...newOnes];
-      if(newOnes.length>0)await supabaseClient.from('clientes').insert(newOnes);
+      if(newOnes.length>0)await supabaseClient.from('clientes').insert(newOnes).catch(e=>console.log(e));
     }
   }catch(e){console.error('Supabase error',e);toast('Erro ao carregar do banco','error');}
 }
@@ -1140,7 +1216,7 @@ function calcABC(){
 }
 
 // ══════════════════════════════════════════════════
-// MAPA
+// MAPA & FILTROS DE CIDADES
 // ══════════════════════════════════════════════════
 function initMap(){
   gmap=L.map('map',{zoomControl:false}).setView([CLat,CLng],12);
@@ -1148,15 +1224,50 @@ function initMap(){
   setMapTheme();
 }
 
+function renderCityFilters() {
+  const cities = [...new Set(customers.map(c => c.cidade || 'Outras'))].filter(x=>x).sort();
+  const container = document.getElementById('cidade-btns');
+  container.innerHTML = cities.map(city => {
+     const isAct = activeCity === city;
+     return `<button class="city-btn ${isAct ? 'active' : ''}" onclick="toggleCity('${esc(city)}')">${esc(city)}</button>`;
+  }).join('');
+}
+
+function toggleCity(city) {
+  if(activeCity === city) activeCity = null;
+  else activeCity = city;
+  renderCityFilters();
+  renderMapMarkers();
+}
+function clearMapFilters() {
+  activeCity = null;
+  renderCityFilters();
+  renderMapMarkers();
+}
+
+function onMapSearch(val) {
+  mapSearchText = val.toLowerCase();
+  document.getElementById('map-search-clear').style.display = val ? 'block' : 'none';
+  renderMapMarkers();
+}
+function clearMapSearch() {
+  document.getElementById('map-search').value = '';
+  onMapSearch('');
+}
+
 function renderMapMarkers(){
   Object.values(markerObjs).forEach(m=>gmap.removeLayer(m));
   markerObjs={};
-  const showAll=activeZones.size===0;
+  
   customers.forEach(c=>{
-    if(!isCoord(c.lat,c.lng))return;
-    if(!showAll&&!activeZones.has(c.zone))return;
+    if(!isCoord(c.lat,c.lng)) return;
     
-    let color = ZC[c.zone]||'#aaa';
+    // Filtro de Cidade
+    if(activeCity && (c.cidade || 'Outras') !== activeCity) return;
+    // Filtro de Busca
+    if(mapSearchText && !c.name.toLowerCase().includes(mapSearchText) && !(c.address||'').toLowerCase().includes(mapSearchText)) return;
+
+    let color = '#4a9eff'; // Padrão
     if (abcMode) {
       if(c.curva === 'A') color = document.body.classList.contains('theme-cinza') ? '#5e35b1' : '#f5a623';
       else color = ABC_COLOR[c.curva]||'#aaa';
@@ -1184,7 +1295,7 @@ function renderMapMarkers(){
       <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">
         <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;background:var(--accent);color:var(--accent-txt);border:none;border-radius:4px;padding:5px 9px;cursor:pointer" onclick="window.open('http://google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}')">🚗 Navegar</button>
         <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;padding:5px 9px;cursor:pointer" onclick="toggleVisited('${c.id}')">${c.visited?'↩ Desfazer':'✔ Visitado'}</button>
-        <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;padding:5px 9px;cursor:pointer" onclick="openClienteModal('${c.id}')">✏ Editar</button>
+        <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;padding:5px 9px;cursor:pointer" onclick="openClienteDetalhe('${c.id}')">📊 Resumo</button>
       </div>
     </div>`,{maxWidth:280,minWidth:240});
     markerObjs[c.id]=m;
@@ -1198,23 +1309,12 @@ async function toggleVisited(id){
   renderMapMarkers();
   if(c.visited){gmap.closePopup();toast(`✔ ${c.name} visitado`,'success');}
 }
-function toggleZone(z){
-  if(activeZones.has(z))activeZones.delete(z);else activeZones.add(z);
-  document.querySelectorAll('.zone-btn').forEach(b=>b.classList.toggle('active',activeZones.has(b.dataset.z)));
-  renderMapMarkers();
-}
-function clearMapZones(){activeZones.clear();document.querySelectorAll('.zone-btn').forEach(b=>b.classList.remove('active'));renderMapMarkers();}
+
 function toggleABC(){
   abcMode=!abcMode;
   document.getElementById('abc-toggle').classList.toggle('on',abcMode);
   document.getElementById('abc-legend-bar').style.display=abcMode?'flex':'none';
   renderMapMarkers();
-}
-function updMapBadges(){
-  ['NORTE','SUL','LESTE','OESTE'].forEach(z=>{
-    const el=document.getElementById('b-'+z);
-    if(el)el.textContent=customers.filter(c=>c.zone===z).length;
-  });
 }
 
 // ══════════════════════════════════════════════════
@@ -1229,6 +1329,7 @@ function showPage(pageId){
   if(pageId==='page-vendas')renderVendas();
   if(pageId==='page-pedidos')renderPedidos();
   if(pageId==='page-clientes')renderClientes();
+  if(pageId==='page-vendedores')renderVendedores();
   if(pageId==='page-rep')renderReps();
   if(pageId==='page-indicadores')renderIndicadores();
   if(pageId==='page-mapa'&&gmap)setTimeout(()=>gmap.invalidateSize(),100);
@@ -1239,6 +1340,7 @@ function openDrawerPage(pageId){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
   if(pageId==='page-clientes')renderClientes();
+  if(pageId==='page-vendedores')renderVendedores();
   if(pageId==='page-rep')renderReps();
   if(pageId==='page-indicadores')renderIndicadores();
 }
@@ -1351,10 +1453,6 @@ function renderVendas(){
     ${previsaoFim>0?`<div class="panel-block"><div class="panel-lbl">Previsão do mês</div><div class="panel-val" style="font-size:18px;color:var(--accent)">${fmtBRL(previsaoFim)}</div><div class="panel-sub">No ritmo atual</div></div>`:''}`;
 
   document.getElementById('meta-bar').innerHTML=`<div class="meta-header" style="margin-bottom:${metaMes>0?'10px':'0'}"><span class="meta-title">🎯 Meta — ${fmtMesShort(mes)}</span><div style="font-size:12px;color:var(--muted)">${metaMes>0?`<span style="color:var(--text);font-weight:600">${fmtBRL(vendidoTotal)}</span> de <span style="color:var(--text);font-weight:600">${fmtBRL(metaMes)}</span>`:''}</div></div>${metaMes>0?`<div class="meta-progress-wrap"><div class="meta-progress" style="width:${pct}%"></div></div><div class="meta-values"><div><span style="color:${pctColor}">${pct}% realizado</span></div><div>Meta: <span>${fmtBRL(metaMes)}</span></div></div>`:'<div style="font-size:12px;color:var(--muted)">Meta não definida — <button class="btn btn-ghost btn-sm" onclick="openMetaModal()" style="display:inline-flex">Definir agora</button></div>'}`;
-
-  const sorted=[...customers].filter(c=>c.totalvendas>0).sort((a,b)=>b.totalvendas-a.totalvendas).slice(0,20);
-  if(!sorted.length){document.getElementById('abc-table').innerHTML=`<div class="empty-state" style="padding:24px"><div class="empty-icon">📦</div><div class="empty-sub">Cadastre pedidos para curva ABC.</div></div>`;return;}
-  document.getElementById('abc-table').innerHTML=`<table style="width:100%;border-collapse:collapse"><thead><tr style="border-bottom:1px solid var(--border)"><th style="padding:10px 16px;text-align:left;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Cliente</th><th style="padding:10px 8px;text-align:right;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Total</th><th style="padding:10px 16px;text-align:center;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Curva</th></tr></thead><tbody>${sorted.map(c=>`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-family:var(--fh);font-weight:700;font-size:13px">${esc(c.name)}</td><td style="padding:10px 8px;text-align:right;font-size:12px;color:var(--accent);font-weight:600">${fmtBRL(c.totalvendas)}</td><td style="padding:10px 16px;text-align:center"><span class="badge badge-${c.curva}">${c.curva}</span></td></tr>`).join('')}</tbody></table>`;
 }
 
 // ══════════════════════════════════════════════════
@@ -1372,7 +1470,6 @@ function renderIndicadores(){
   const cGrid = isCinza ? '#e2e8f0' : 'rgba(42,47,66,.5)';
   const cTick = isCinza ? '#64748b' : '#7a8099';
 
-  // 1. CARTEIRA DE CLIENTES
   const trintaDiasAtraz = new Date(); trintaDiasAtraz.setMonth(trintaDiasAtraz.getMonth() - 3);
   let cAtivos=0, cInativos=0, cProspects=0;
   
@@ -1409,7 +1506,6 @@ function renderIndicadores(){
     }
   });
 
-  // 2. POSITIVAÇÃO
   let cPositivados = 0;
   const jaComprouEsteMes = new Set();
   pedidos.filter(p=>p.status!=='cancelado' && p.data && p.data.slice(0,7)===mesAtual).forEach(p => {
@@ -1437,7 +1533,6 @@ function renderIndicadores(){
     }
   });
 
-  // 3. CURVA ABC
   let cA=0, cB=0, cC=0;
   customers.forEach(c => {
     if(c.curva==='A') cA++; else if(c.curva==='B') cB++; else cC++;
@@ -1461,8 +1556,7 @@ function renderIndicadores(){
     }
   });
 
-  // 4. HISTÓRICO 6 MESES
-  const ultimos6 = last6Months(); 
+  const ultimos6 = last6Months().reverse(); 
   const histData = [];
   ultimos6.forEach(m => {
     let tot = 0;
@@ -1508,6 +1602,72 @@ function renderIndicadores(){
   });
   tableHtml += `<td style="padding:10px; font-weight:bold; color:var(--accent)">${fmtBRL(somaHist)}</td></tr></tbody></table>`;
   document.getElementById('table-historico').innerHTML = tableHtml;
+}
+
+// ══════════════════════════════════════════════════
+// VENDEDORES
+// ══════════════════════════════════════════════════
+function renderVendedores() {
+  const el = document.getElementById('vendedores-list');
+  if(!vendedores.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">🧑‍💼</div><div class="empty-title">Nenhum vendedor</div><button class="btn btn-accent" onclick="openVendedorModal()">+ Novo Vendedor</button></div>`;
+    return;
+  }
+  el.innerHTML=vendedores.map(v=>`
+    <div class="list-item" onclick="openVendedorModal('${v.id}')">
+      <div style="font-size:24px;flex-shrink:0">👤</div>
+      <div class="list-item-info">
+        <div class="list-item-name">${esc(v.nome)}</div>
+        <div class="list-item-sub">${v.tel||'Sem telefone'}</div>
+      </div>
+      <div class="list-item-actions">${v.comissao?`<span class="badge" style="background:rgba(62,207,142,.15);color:var(--success);border:1px solid rgba(62,207,142,.3)">${v.comissao}%</span>`:''}</div>
+    </div>
+  `).join('');
+}
+
+function openVendedorModal(id) {
+  const v = id ? vendedores.find(x=>x.id===id) : null;
+  currentEditVend = v;
+  document.getElementById('vendedor-modal-title').textContent = v ? 'Editar Vendedor' : 'Novo Vendedor';
+  document.getElementById('v-id').value = v?.id || '';
+  document.getElementById('v-nome').value = v?.nome || '';
+  document.getElementById('v-comissao').value = v?.comissao || '';
+  document.getElementById('v-tel').value = v?.tel || '';
+  document.getElementById('v-obs').value = v?.obs || '';
+  document.getElementById('v-del-btn').style.display = v ? 'inline-flex' : 'none';
+  openModal('modal-vendedor');
+}
+
+async function saveVendedor() {
+  const id = document.getElementById('v-id').value || uid();
+  const nome = document.getElementById('v-nome').value.trim();
+  if(!nome){toast('Informe o nome', 'error'); return;}
+  
+  const v = {
+    id, nome, 
+    comissao: parseFloat(document.getElementById('v-comissao').value) || 0,
+    tel: document.getElementById('v-tel').value.trim(),
+    obs: document.getElementById('v-obs').value.trim()
+  };
+
+  await supabaseClient.from('vendedores').upsert(v).catch(e=>console.log(e));
+  const idx = vendedores.findIndex(x=>x.id===id);
+  if(idx > -1) vendedores[idx] = v; else vendedores.push(v);
+  
+  closeModal('modal-vendedor');
+  renderVendedores();
+  toast('Vendedor salvo!', 'success');
+}
+
+function deleteVendedor() {
+  const id = document.getElementById('v-id').value;
+  showConfirm('Excluir Vendedor', 'Deseja excluir?', async () => {
+    await supabaseClient.from('vendedores').delete().eq('id', id).catch(e=>console.log(e));
+    vendedores = vendedores.filter(x=>x.id!==id);
+    closeModal('modal-vendedor');
+    renderVendedores();
+    toast('Excluído', 'info');
+  });
 }
 
 // ══════════════════════════════════════════════════
@@ -1588,6 +1748,9 @@ function openPedidoModal(id){
   const rSel=document.getElementById('p-rep');
   rSel.innerHTML='<option value="">— Sem representada —</option>'+representadas.map(r=>`<option value="${r.id}" ${p?.representadaid===r.id?'selected':''}>${esc(r.nome)}</option>`).join('');
   
+  const vSel=document.getElementById('p-vendedor');
+  vSel.innerHTML='<option value="">— Sem vendedor —</option>'+vendedores.map(v=>`<option value="${v.id}" ${p?.vendedorid===v.id?'selected':''}>${esc(v.nome)}</option>`).join('');
+
   const itens=p?.itens||[{desc:'',qtd:1,vlr:0}];
   document.getElementById('p-itens').innerHTML='';
   itens.forEach(i=>addItemRow(i));
@@ -1676,8 +1839,10 @@ async function savePedido(){
   const data=document.getElementById('p-data').value;
   const clienteid=document.getElementById('p-cliente').value; 
   const representadaid=document.getElementById('p-rep').value;
+  const vendedorid=document.getElementById('p-vendedor').value; 
   const status=document.getElementById('p-status').value;
   const obs=document.getElementById('p-obs').value.trim();
+  
   if(!numero||!clienteid){toast('Preencha os campos obrigatórios (Número e Cliente)','error');return;}
   const itens=[];let total=0;
   document.querySelectorAll('#p-itens .item-row').forEach(row=>{
@@ -1685,7 +1850,7 @@ async function savePedido(){
     const desc=inputs[0].value.trim(),qtd=parseFloat(inputs[1].value)||1,vlr=parseCurrency(inputs[2].value);
     if(desc)itens.push({desc,qtd,vlr});total+=qtd*vlr;
   });
-  const p={id,numero,data,clienteid,representadaid,status,itens,total,obs};
+  const p={id,numero,data,clienteid,representadaid,vendedorid,status,itens,total,obs};
   await supabaseClient.from('pedidos').upsert(p);
   const idx=pedidos.findIndex(x=>x.id===id);
   if(idx>-1)pedidos[idx]=p;else pedidos.push(p);
@@ -1704,20 +1869,22 @@ function deletePedido(){
 }
 
 // ══════════════════════════════════════════════════
-// CLIENTES
+// CLIENTES (E RESUMO)
 // ══════════════════════════════════════════════════
 function renderClientes(){
   calcABC();
   const q=(document.getElementById('cliente-search')?.value||document.getElementById('g-search')?.value||'').toLowerCase();
   let list=[...customers].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
-  if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||c.address.toLowerCase().includes(q));
+  if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||(c.address||'').toLowerCase().includes(q)||(c.cidade||'').toLowerCase().includes(q));
   const el=document.getElementById('clientes-list');
   if(!list.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">Nenhum cliente</div></div>`;return;}
-  el.innerHTML=list.map(c=>`<div class="list-item" onclick="openClienteModal('${c.id}')">
+  
+  // Alterado para abrir o DETALHE (Resumo) em vez do Edit direto
+  el.innerHTML=list.map(c=>`<div class="list-item" onclick="openClienteDetalhe('${c.id}')">
     <div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px;background:${ZC[c.zone]||'var(--muted)'}"></div>
     <div class="list-item-info">
       <div class="list-item-name">${esc(c.name)}</div>
-      <div class="list-item-sub">${esc(c.address)}</div>
+      <div class="list-item-sub">${esc(c.cidade||'')} ${c.cidade&&c.address?'-':''} ${esc(c.address)}</div>
       ${c.notes?`<div style="font-size:10px;color:var(--accent);margin-top:2px">📝 ${esc(c.notes)}</div>`:''}
     </div>
     <div class="list-item-actions">
@@ -1725,6 +1892,88 @@ function renderClientes(){
       ${c.visited?'<span style="font-size:11px;color:var(--success)">✔</span>':''}
     </div>
   </div>`).join('');
+}
+
+// ── O NOVO RESUMO DO CLIENTE ──
+function openClienteDetalhe(id) {
+  const c = customers.find(x => x.id === id);
+  if(!c) return;
+  document.getElementById('detalhe-nome').textContent = c.name;
+
+  const pedCli = pedidos.filter(p => p.clienteid === id && p.status !== 'cancelado');
+  const totalGasto = pedCli.reduce((acc, p) => acc + (p.total || 0), 0);
+  const numPedidos = pedCli.length;
+  const ticketMedio = numPedidos ? totalGasto / numPedidos : 0;
+
+  // Calcula Ranking
+  const allTotals = customers.map(cust => {
+      const tot = pedidos.filter(p=>p.clienteid === cust.id && p.status!=='cancelado').reduce((acc, p)=>acc+(p.total||0), 0);
+      return { id: cust.id, tot };
+  }).sort((a,b) => b.tot - a.tot);
+  const rankObj = allTotals.findIndex(x => x.id === id);
+  const rank = rankObj > -1 && totalGasto > 0 ? (rankObj + 1) + 'º' : '—';
+
+  // Dias sem comprar
+  let diasSemComprar = 'Nunca comprou';
+  if (numPedidos > 0) {
+      const datas = pedCli.map(p => new Date(p.data)).filter(d => !isNaN(d));
+      if (datas.length > 0) {
+          const lastDate = datas.sort((a,b)=>b-a)[0];
+          const diffTime = Math.abs(new Date() - lastDate);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          diasSemComprar = diffDays === 0 ? 'Comprou hoje!' : `${diffDays} dias`;
+      }
+  }
+
+  // Compras por Representada
+  const repTotals = {};
+  pedCli.forEach(p => {
+      const rNome = representadas.find(r => r.id === p.representadaid)?.nome || 'Outras / S/N';
+      repTotals[rNome] = (repTotals[rNome] || 0) + (p.total || 0);
+  });
+  
+  let repHtml = '';
+  for(let r in repTotals) {
+      const pct = totalGasto ? ((repTotals[r] / totalGasto) * 100).toFixed(1) : 0;
+      repHtml += `<div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:8px; border-bottom:1px solid var(--border); padding-bottom:4px;">
+        <span style="color:var(--text)">${esc(r)}</span> 
+        <span style="color:var(--accent); font-weight:700">${pct}% <span style="color:var(--muted); font-weight:400; font-size:11px">(${fmtBRL(repTotals[r])})</span></span>
+      </div>`;
+  }
+
+  const html = `
+      <div style="padding:16px;">
+          <div style="color:var(--muted); font-size:12px; margin-bottom:16px; text-transform:uppercase; letter-spacing:0.06em">
+            📍 ${esc(c.cidade || 'Cidade não informada')}
+          </div>
+          
+          <div class="stat-grid" style="grid-template-columns: 1fr 1fr; gap:10px">
+              <div class="panel-block" style="padding:12px"><div class="panel-lbl">Posição (Ranking)</div><div class="panel-val accent">${rank}</div></div>
+              <div class="panel-block" style="padding:12px"><div class="panel-lbl">Total Comprado</div><div class="panel-val" style="color:var(--success)">${fmtBRL(totalGasto)}</div></div>
+              <div class="panel-block" style="padding:12px"><div class="panel-lbl">Nº Pedidos</div><div class="panel-val">${numPedidos}</div></div>
+              <div class="panel-block" style="padding:12px"><div class="panel-lbl">Ticket Médio</div><div class="panel-val">${fmtBRL(ticketMedio)}</div></div>
+          </div>
+          
+          <div class="panel-block" style="margin-top:10px">
+              <div class="panel-lbl">Tempo sem comprar</div>
+              <div style="font-size:18px; font-weight:800; color:var(--danger)">${diasSemComprar}</div>
+          </div>
+          
+          <div class="panel-block" style="margin-top:10px">
+              <div class="panel-lbl" style="margin-bottom:12px">Divisão por Representada</div>
+              ${repHtml || '<div style="font-size:12px;color:var(--muted)">Nenhum pedido faturado/pendente.</div>'}
+          </div>
+      </div>
+  `;
+  document.getElementById('detalhe-body').innerHTML = html;
+  
+  // Botão editar
+  document.getElementById('detalhe-edit-btn').onclick = () => {
+      closeModal('modal-cliente-detalhe');
+      openClienteModal(id);
+  };
+
+  openModal('modal-cliente-detalhe');
 }
 
 function openClienteModal(id){
@@ -1735,6 +1984,7 @@ function openClienteModal(id){
   document.getElementById('c-id').value=c?.id||'';
   document.getElementById('c-nome').value=c?.name||'';
   document.getElementById('c-addr').value=c?.address||'';
+  document.getElementById('c-cidade').value=c?.cidade||'';
   document.getElementById('c-lat').value=c?.lat||'';
   document.getElementById('c-lng').value=c?.lng||'';
   document.getElementById('c-tel').value=c?.tel||'';
@@ -1747,8 +1997,10 @@ async function saveCliente(){
   const id=document.getElementById('c-id').value||uid();
   const name=document.getElementById('c-nome').value.trim();
   const address=document.getElementById('c-addr').value.trim();
+  const cidade=document.getElementById('c-cidade').value.trim();
   if(!name){toast('Informe o nome','error');return;}
-  const c={id,name,address,
+  
+  const c={id,name,address,cidade,
     lat:parseFloat(document.getElementById('c-lat').value)||null,
     lng:parseFloat(document.getElementById('c-lng').value)||null,
     tel:document.getElementById('c-tel').value.trim(),
@@ -1761,6 +2013,7 @@ async function saveCliente(){
   
   closeModal('modal-cliente');
   renderClientes();renderMapMarkers();updMapBadges();
+  renderCityFilters(); // Atualiza botões de cidade
   
   if(isAddingClientFromPedido) {
     selectClientePedido(c.id, c.name);
@@ -1774,12 +2027,12 @@ function deleteCliente(){
   showConfirm('Excluir Cliente','Excluir?',async()=>{
     await supabaseClient.from('clientes').delete().eq('id',id);
     customers=customers.filter(x=>x.id!==id);
-    closeModal('modal-cliente');renderClientes();renderMapMarkers();updMapBadges();toast('Excluído','info');
+    closeModal('modal-cliente');renderClientes();renderMapMarkers();updMapBadges();renderCityFilters();toast('Excluído','info');
   });
 }
 
 function doExport(){
-  const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),customers,pedidos,representadas,metas},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),customers,pedidos,representadas,metas,vendedores},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`vetra_backup_${new Date().toISOString().slice(0,10)}.json`;a.click();
   toast('Backup exportado!','success');
@@ -1887,7 +2140,7 @@ function toast(m,t='info'){
 
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
-    ['modal-pedido','modal-cliente','modal-rep','modal-meta'].forEach(id=>closeModal(id));
+    ['modal-pedido','modal-cliente','modal-rep','modal-vendedor','modal-meta','modal-cliente-detalhe'].forEach(id=>closeModal(id));
     closeConfirm();closeDrawer();
   }
 });
@@ -1911,7 +2164,7 @@ function showApp(user) {
   document.getElementById('loading-screen').classList.remove('visible');
   document.getElementById('login-screen').classList.remove('visible');
   const emailShort = user.email.split('@')[0];
-  document.getElementById('user-email-short').textContent = emailShort;
+  document.getElementById('drawer-user-email').textContent = 'Logado como: ' + emailShort;
 }
 
 async function doLogin() {
@@ -1942,7 +2195,7 @@ async function doLogin() {
 async function doLogout() {
   if (!confirm('Deseja sair da sua conta?')) return;
   await supabaseClient.auth.signOut();
-  customers=[]; pedidos=[]; representadas=[]; metas={};
+  customers=[]; pedidos=[]; representadas=[]; metas={}; vendedores=[];
   if(gmap) { Object.values(markerObjs).forEach(m=>gmap.removeLayer(m)); markerObjs={}; }
   showLoginScreen();
   document.getElementById('login-email').value = '';
@@ -1962,6 +2215,18 @@ async function initApp(user) {
   await load();
   calcABC();
   initMap();
+  
+  // Extrair cidades dos endereços dos clientes se não houver cidade salva
+  customers.forEach(c => {
+     if(!c.cidade) {
+         if(c.address.includes('BG')) c.cidade = 'Bento Gonçalves';
+         else if(c.address.includes('Garibaldi')) c.cidade = 'Garibaldi';
+         else if(c.address.includes('Caxias')) c.cidade = 'Caxias do Sul';
+         else c.cidade = 'Outras';
+     }
+  });
+
+  renderCityFilters();
   renderMapMarkers();
   updMapBadges();
   const wc = customers.filter(c => isCoord(c.lat, c.lng));
