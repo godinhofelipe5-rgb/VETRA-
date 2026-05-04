@@ -300,14 +300,18 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   box-shadow:0 24px 60px rgba(0,0,0,.5);
   display:flex;flex-direction:column;align-items:center;gap:0;
 }
-.login-logo { margin-bottom:28px; }
+.login-logo {
+  margin-bottom:28px;
+}
 .login-logo img { height:32px; }
 .login-title {
   font-family:var(--fh);font-weight:800;font-size:18px;
   letter-spacing:.04em;text-transform:uppercase;
   color:var(--text);margin-bottom:6px;text-align:center;width:100%;
 }
-.login-sub { font-size:13px;color:var(--muted);margin-bottom:28px;text-align:center;width:100%; }
+.login-sub {
+  font-size:13px;color:var(--muted);margin-bottom:28px;text-align:center;width:100%;
+}
 .login-field { width:100%;margin-bottom:14px; }
 .login-label {
   display:block;font-family:var(--fh);font-size:11px;
@@ -997,6 +1001,9 @@ let confirmCb=null;
 let lastMainPage='page-mapa'; 
 let isAddingClientFromPedido = false; 
 
+// Utilitário para forçar que nada dê erro de variável nula ao usar métodos de texto
+const str = v => String(v || '');
+
 // ══════════════════════════════════════════════════
 // MÁSCARA & UTILIDADES
 // ══════════════════════════════════════════════════
@@ -1012,7 +1019,7 @@ function maskCurrency(e) {
 function parseCurrency(val) {
   if (!val) return 0;
   if (typeof val === 'number') return val;
-  let s = val.replace(/[R$\s.]/g, '').replace(',', '.');
+  let s = str(val).replace(/[R$\s.]/g, '').replace(',', '.');
   return parseFloat(s) || 0;
 }
 
@@ -1054,13 +1061,13 @@ function setMapTheme() {
 
 function zone4(lat,lng){return lat>=CLat?(lng>=CLng?'NORTE':'OESTE'):(lng>=CLng?'LESTE':'SUL');}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
-function esc(s){return(s||'').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');}
+function esc(s){ return str(s).replace(/[&<>"']/g, function(m) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[m]; }); }
 function isCoord(lat,lng){return lat!=null&&lng!=null&&!isNaN(lat)&&!isNaN(lng)&&lat>=-90&&lat<=90;}
 function fmtBRL(v){return'R$ '+(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function fmtMes(ym){if(!ym)return'';const[y,m]=ym.split('-');const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];return meses[parseInt(m)-1]+' de '+y;}
-function fmtMesShort(ym){if(!ym)return'';const[y,m]=ym.split('-');const ms=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];return ms[parseInt(m)-1]+'/'+y.slice(2);}
+function fmtMes(ym){if(!ym)return'';const p = str(ym).split('-');if(p.length<2)return ym; const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];return meses[parseInt(p[1])-1]+' de '+p[0];}
+function fmtMesShort(ym){if(!ym)return'';const p = str(ym).split('-');if(p.length<2)return ym; const ms=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];return ms[parseInt(p[1])-1]+'/'+p[0].slice(2);}
 function curMes(){const d=new Date();return d.getFullYear()+'-'+(String(d.getMonth()+1).padStart(2,'0'));}
-function daysInMonth(ym){const[y,m]=ym.split('-').map(Number);return new Date(y,m,0).getDate();}
+function daysInMonth(ym){const p = str(ym).split('-').map(Number);if(p.length<2)return 30; return new Date(p[0],p[1],0).getDate();}
 function todayStr(){
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -1071,22 +1078,25 @@ function yestStr(){
 }
 function formatDateBR(ymd){
   if(!ymd) return '';
-  const p = ymd.split('-');
+  const p = str(ymd).split('-');
+  if(p.length < 3) return ymd;
   return p[2] + '/' + p[1] + '/' + p[0];
 }
 
 function getDayLetter(ym, dayNum){
-  const[y,m]=ym.split('-').map(Number);
-  const dow=new Date(y,m-1,dayNum).getDay();
+  const p = str(ym).split('-').map(Number);
+  if(p.length<2)return '';
+  const dow=new Date(p[0],p[1]-1,dayNum).getDay();
   return ['D','S','T','Q','Q','S','S'][dow];
 }
 
 function bizDaysLeft(ym){
-  const[y,m]=ym.split('-').map(Number);
+  const p = str(ym).split('-').map(Number);
+  if(p.length<2)return 0;
   const tot=daysInMonth(ym);
   const start=new Date().getDate();
   let count=0;
-  for(let d=start;d<=tot;d++){const dow=new Date(y,m-1,d).getDay();if(dow!==0&&dow!==6)count++;}
+  for(let d=start;d<=tot;d++){const dow=new Date(p[0],p[1]-1,d).getDay();if(dow!==0&&dow!==6)count++;}
   return count;
 }
 
@@ -1100,10 +1110,9 @@ function last6Months(){
   return ms;
 }
 
-// Extract City from RAW Address if not provided
 function mkCustomer(r){
   let cid = 'Outras';
-  const addr = r.address || '';
+  const addr = str(r.address);
   if(addr.includes('BG')) cid = 'Bento Gonçalves';
   else if(addr.includes('Garibaldi')) cid = 'Garibaldi';
   else if(addr.includes('Caxias')) cid = 'Caxias do Sul';
@@ -1113,40 +1122,49 @@ function mkCustomer(r){
 }
 
 // ══════════════════════════════════════════════════
-// SUPABASE LOAD 100% BLINDADO
+// SUPABASE LOAD - BLINDADO COM SAFE FETCH
 // ══════════════════════════════════════════════════
-async function load(){
-  let rCli, rPed, rRep, rMet, rVend;
-  
-  // Tenta puxar tabela por tabela. Se alguma não existir ou der erro, o site continua rodando!
-  try { rCli = await supabaseClient.from('clientes').select('*'); } catch(e) { console.log('Erro Clientes'); rCli = {data:[]}; }
-  try { rPed = await supabaseClient.from('pedidos').select('*'); } catch(e) { console.log('Erro Pedidos'); rPed = {data:[]}; }
-  try { rRep = await supabaseClient.from('representadas').select('*'); } catch(e) { console.log('Erro Reps'); rRep = {data:[]}; }
-  try { rMet = await supabaseClient.from('metas').select('*'); } catch(e) { console.log('Erro Metas'); rMet = {data:[]}; }
-  try { rVend = await supabaseClient.from('vendedores').select('*'); } catch(e) { console.log('Erro Vendedores'); rVend = {data:[]}; }
-
-  pedidos = rPed?.data || []; 
-  representadas = rRep?.data || []; 
-  vendedores = rVend?.data || [];
-  metas = {};
-  
-  if(rMet && rMet.data) {
-      rMet.data.forEach(m => metas[m.mes] = m.valor);
+async function safeFetch(table) {
+  try {
+    const { data, error } = await supabaseClient.from(table).select('*');
+    if (error) { console.warn(`Supabase warning em ${table}:`, error.message); return []; }
+    return data || [];
+  } catch (e) {
+    console.warn(`Fetch exception em ${table}:`, e);
+    return [];
   }
+}
 
-  const saved = rCli?.data || [];
-  
-  // Se o banco estiver vazio, carrega os iniciais
-  if(saved.length === 0){
-    customers = RAW_CUSTOMERS.map(r => mkCustomer(r));
-    try { await supabaseClient.from('clientes').insert(customers); } catch(e) { console.log('Erro Insert RAW'); }
-  } else {
-    const savedNames = new Set(saved.map(c => c.name));
-    const newOnes = RAW_CUSTOMERS.filter(r => !savedNames.has(r.name)).map(r => mkCustomer(r));
-    customers = [...saved, ...newOnes];
-    if(newOnes.length > 0) {
-        try { await supabaseClient.from('clientes').insert(newOnes); } catch(e) { console.log('Erro Insert Novos'); }
+async function load(){
+  try {
+    const rCli = await safeFetch('clientes');
+    const rPed = await safeFetch('pedidos');
+    const rRep = await safeFetch('representadas');
+    const rMet = await safeFetch('metas');
+    const rVend = await safeFetch('vendedores');
+
+    pedidos = rPed; 
+    representadas = rRep; 
+    vendedores = rVend;
+    metas = {};
+    rMet.forEach(m => { metas[m.mes] = m.valor; });
+
+    const saved = rCli;
+    if(saved.length === 0){
+      customers = RAW_CUSTOMERS.map(r => mkCustomer(r));
+      try { await supabaseClient.from('clientes').insert(customers); } catch(e){}
+    } else {
+      const savedNames = new Set(saved.map(c => c.name));
+      const newOnes = RAW_CUSTOMERS.filter(r => !savedNames.has(r.name)).map(r => mkCustomer(r));
+      customers = [...saved, ...newOnes];
+      if(newOnes.length > 0) {
+          try { await supabaseClient.from('clientes').insert(newOnes); } catch(e){}
+      }
     }
+  } catch(e) {
+      console.error('Fatal load error', e);
+      toast('Erro no carregamento principal', 'error');
+      if(!customers.length) customers = RAW_CUSTOMERS.map(r => mkCustomer(r)); // Proteção total
   }
 }
 
@@ -1203,7 +1221,7 @@ function clearMapFilters() {
 }
 
 function onMapSearch(val) {
-  mapSearchText = val.toLowerCase();
+  mapSearchText = str(val).toLowerCase();
   document.getElementById('map-search-clear').style.display = val ? 'block' : 'none';
   renderMapMarkers();
 }
@@ -1221,8 +1239,8 @@ function renderMapMarkers(){
     
     // Filtro de Cidade
     if(activeCity && (c.cidade || 'Outras') !== activeCity) return;
-    // Filtro de Busca
-    if(mapSearchText && !(c.name||'').toLowerCase().includes(mapSearchText) && !(c.address||'').toLowerCase().includes(mapSearchText)) return;
+    // Filtro de Busca Segura
+    if(mapSearchText && !str(c.name).toLowerCase().includes(mapSearchText) && !str(c.address).toLowerCase().includes(mapSearchText)) return;
 
     let color = '#4a9eff'; // Padrão
     if (abcMode) {
@@ -1230,7 +1248,7 @@ function renderMapMarkers(){
       else color = ABC_COLOR[c.curva]||'#aaa';
     }
 
-    const label=abcMode?(c.curva||'?'):(c.name||'').slice(0,3).toUpperCase();
+    const label=abcMode?(c.curva||'?'):str(c.name).slice(0,3).toUpperCase();
     const op=c.visited?0.3:0.95;
     const sz=abcMode&&c.curva==='A'?36:30;
     const icon=L.divIcon({
@@ -1262,7 +1280,7 @@ function renderMapMarkers(){
 async function toggleVisited(id){
   const c=customers.find(x=>x.id===id);if(!c)return;
   c.visited=!c.visited;if(c.visited)c.lastvisit=new Date().toISOString();
-  await supabaseClient.from('clientes').update({visited:c.visited,lastvisit:c.lastvisit}).eq('id',id);
+  try { await supabaseClient.from('clientes').update({visited:c.visited,lastvisit:c.lastvisit}).eq('id',id); } catch(e){}
   renderMapMarkers();
   if(c.visited){gmap.closePopup();toast(`✔ ${c.name} visitado`,'success');}
 }
@@ -1348,8 +1366,8 @@ function renderVendas(){
 
   const dailyTotals={};
   for(let d=1;d<=totalDays;d++)dailyTotals[d]=0;
-  pedidos.filter(p=>p.status==='faturado'&&p.data&&p.data.slice(0,7)===mes).forEach(p=>{
-    const d=parseInt(p.data.slice(8,10));
+  pedidos.filter(p=>p.status==='faturado'&&str(p.data).slice(0,7)===mes).forEach(p=>{
+    const d=parseInt(str(p.data).slice(8,10));
     if(d>=1&&d<=totalDays)dailyTotals[d]+=(p.total||0);
   });
   let cumVendas=[];let running=0;
@@ -1432,7 +1450,7 @@ function renderIndicadores(){
   
   const ultimoPed = {};
   pedidos.filter(p=>p.status!=='cancelado').forEach(p => {
-     if(!ultimoPed[p.clienteid] || p.data > ultimoPed[p.clienteid]) ultimoPed[p.clienteid] = p.data;
+     if(!ultimoPed[p.clienteid] || str(p.data) > str(ultimoPed[p.clienteid])) ultimoPed[p.clienteid] = str(p.data);
   });
 
   customers.forEach(c => {
@@ -1465,7 +1483,7 @@ function renderIndicadores(){
 
   let cPositivados = 0;
   const jaComprouEsteMes = new Set();
-  pedidos.filter(p=>p.status!=='cancelado' && p.data && p.data.slice(0,7)===mesAtual).forEach(p => {
+  pedidos.filter(p=>p.status!=='cancelado' && str(p.data).slice(0,7)===mesAtual).forEach(p => {
     jaComprouEsteMes.add(p.clienteid);
   });
   cPositivados = jaComprouEsteMes.size;
@@ -1517,7 +1535,7 @@ function renderIndicadores(){
   const histData = [];
   ultimos6.forEach(m => {
     let tot = 0;
-    pedidos.filter(p=>p.status==='faturado' && p.data && p.data.slice(0,7)===m).forEach(p => tot+=(p.total||0));
+    pedidos.filter(p=>p.status==='faturado' && str(p.data).slice(0,7)===m).forEach(p => tot+=(p.total||0));
     histData.push(tot);
   });
 
@@ -1575,7 +1593,7 @@ function renderVendedores() {
       <div style="font-size:24px;flex-shrink:0">👤</div>
       <div class="list-item-info">
         <div class="list-item-name">${esc(v.nome)}</div>
-        <div class="list-item-sub">${v.tel||'Sem telefone'}</div>
+        <div class="list-item-sub">${esc(v.tel)||'Sem telefone'}</div>
       </div>
       <div class="list-item-actions">${v.comissao?`<span class="badge" style="background:rgba(62,207,142,.15);color:var(--success);border:1px solid rgba(62,207,142,.3)">${v.comissao}%</span>`:''}</div>
     </div>
@@ -1631,14 +1649,14 @@ function deleteVendedor() {
 // PEDIDOS (AGRUPAMENTO INTELIGENTE)
 // ══════════════════════════════════════════════════
 function renderPedidos(){
-  const q=(document.getElementById('pedido-search')?.value||document.getElementById('g-search')?.value||'').toLowerCase();
+  const q=str(document.getElementById('pedido-search')?.value||document.getElementById('g-search')?.value).toLowerCase();
   
   let list=[...pedidos];
   if(q) {
     list=list.filter(p=>{
       const c=customers.find(x=>x.id===p.clienteid);
       const r=representadas.find(x=>x.id===p.representadaid);
-      return (p.numero||'').toLowerCase().includes(q)||(c?.name||'').toLowerCase().includes(q)||(r?.nome||'').toLowerCase().includes(q);
+      return str(p.numero).toLowerCase().includes(q)||str(c?.name).toLowerCase().includes(q)||str(r?.nome).toLowerCase().includes(q);
     });
   }
 
@@ -1655,7 +1673,7 @@ function renderPedidos(){
     groups[d].push(p);
   });
 
-  const sortedDates = Object.keys(groups).sort((a,b) => b.localeCompare(a));
+  const sortedDates = Object.keys(groups).sort((a,b) => str(b).localeCompare(str(a)));
   const hojeTxt = todayStr();
   const ontemTxt = yestStr();
 
@@ -1667,7 +1685,7 @@ function renderPedidos(){
     else if(dataKey === 'Sem Data') headerTxt = 'SEM DATA';
     else headerTxt = formatDateBR(dataKey); 
 
-    html += `<div class="date-divider">${headerTxt}</div>`;
+    html += `<div class="date-divider">${esc(headerTxt)}</div>`;
 
     groups[dataKey].forEach(p => {
       const c=customers.find(x=>x.id===p.clienteid);
@@ -1717,10 +1735,10 @@ function openPedidoModal(id){
 
 function autoNumeroPedido(){
   const yr = new Date().getFullYear();
-  const pedidosAno = pedidos.filter(p => p.numero && p.numero.startsWith(String(yr)));
+  const pedidosAno = pedidos.filter(p => str(p.numero).startsWith(String(yr)));
   let max = 0;
   pedidosAno.forEach(p => {
-    const partes = p.numero.split('-');
+    const partes = str(p.numero).split('-');
     if(partes.length === 2) {
       const num = parseInt(partes[1], 10);
       if(!isNaN(num) && num > max) max = num;
@@ -1730,18 +1748,18 @@ function autoNumeroPedido(){
 }
 
 function filterClientesPedido() {
-  const q = document.getElementById('p-cliente-search').value.toLowerCase();
+  const q = str(document.getElementById('p-cliente-search').value).toLowerCase();
   const drop = document.getElementById('p-cliente-dropdown');
   drop.style.display = 'block';
   
   let html = '';
-  const filtrados = customers.filter(c => (c.name||'').toLowerCase().includes(q));
+  const filtrados = customers.filter(c => str(c.name).toLowerCase().includes(q));
   
   filtrados.forEach(c => {
     html += `<div style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-family:var(--fh);font-size:14px;color:var(--text)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'" onclick="selectClientePedido('${c.id}', '${esc(c.name)}')">${esc(c.name)}</div>`;
   });
   
-  if(q.trim().length > 0 && !filtrados.find(c => (c.name||'').toLowerCase() === q.trim())) {
+  if(q.trim().length > 0 && !filtrados.find(c => str(c.name).toLowerCase() === q.trim())) {
      html += `<div style="padding:12px 14px;cursor:pointer;color:var(--success);font-family:var(--fh);font-weight:bold;text-align:center;background:rgba(62,207,142,0.1)" onclick="addClienteFromPedido('${esc(q)}')">+ Cadastrar "${esc(q)}"</div>`;
   }
   
@@ -1830,9 +1848,11 @@ function deletePedido(){
 // ══════════════════════════════════════════════════
 function renderClientes(){
   calcABC();
-  const q=(document.getElementById('cliente-search')?.value||document.getElementById('g-search')?.value||'').toLowerCase();
-  let list=[...customers].sort((a,b)=>(a.name||'').localeCompare((b.name||''),'pt-BR'));
-  if(q)list=list.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.address||'').toLowerCase().includes(q)||(c.cidade||'').toLowerCase().includes(q));
+  const q=str(document.getElementById('cliente-search')?.value||document.getElementById('g-search')?.value).toLowerCase();
+  let list=[...customers].sort((a,b)=>str(a.name).localeCompare(str(b.name),'pt-BR'));
+  
+  if(q)list=list.filter(c=>str(c.name).toLowerCase().includes(q)||str(c.address).toLowerCase().includes(q)||str(c.cidade).toLowerCase().includes(q));
+  
   const el=document.getElementById('clientes-list');
   if(!list.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">Nenhum cliente</div></div>`;return;}
   
@@ -1840,7 +1860,7 @@ function renderClientes(){
     <div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px;background:${ZC[c.zone]||'var(--muted)'}"></div>
     <div class="list-item-info">
       <div class="list-item-name">${esc(c.name)}</div>
-      <div class="list-item-sub">${esc(c.cidade||'')} ${c.cidade&&c.address?'-':''} ${esc(c.address)}</div>
+      <div class="list-item-sub">${esc(c.cidade)} ${c.cidade&&c.address?'-':''} ${esc(c.address)}</div>
       ${c.notes?`<div style="font-size:10px;color:var(--accent);margin-top:2px">📝 ${esc(c.notes)}</div>`:''}
     </div>
     <div class="list-item-actions">
@@ -1850,10 +1870,11 @@ function renderClientes(){
   </div>`).join('');
 }
 
+// ── O NOVO RESUMO DO CLIENTE ──
 function openClienteDetalhe(id) {
   const c = customers.find(x => x.id === id);
   if(!c) return;
-  document.getElementById('detalhe-nome').textContent = c.name;
+  document.getElementById('detalhe-nome').textContent = c.name || 'Sem nome';
 
   const pedCli = pedidos.filter(p => p.clienteid === id && p.status !== 'cancelado');
   const totalGasto = pedCli.reduce((acc, p) => acc + (p.total || 0), 0);
@@ -1869,7 +1890,7 @@ function openClienteDetalhe(id) {
 
   let diasSemComprar = 'Nunca comprou';
   if (numPedidos > 0) {
-      const datas = pedCli.map(p => new Date(p.data)).filter(d => !isNaN(d));
+      const datas = pedCli.map(p => new Date(p.data)).filter(d => !isNaN(d.getTime()));
       if (datas.length > 0) {
           const lastDate = datas.sort((a,b)=>b-a)[0];
           const diffTime = Math.abs(new Date() - lastDate);
@@ -2005,7 +2026,7 @@ function renderReps(){
       <div style="font-size:24px;flex-shrink:0">🏢</div>
       <div class="list-item-info">
         <div class="list-item-name">${esc(r.nome)}</div>
-        <div class="list-item-sub">${r.cnpj||''}${r.contato?' · '+r.contato:''}</div>
+        <div class="list-item-sub">${esc(r.cnpj)} ${r.contato?' · '+esc(r.contato):''}</div>
         <div style="font-size:11px;margin-top:3px;color:var(--south)">Faturado: ${fmtBRL(totalRep)}${r.comissao?' · Comissão: '+fmtBRL(comissao):''}</div>
       </div>
       <div class="list-item-actions">${r.comissao?`<span class="badge" style="background:rgba(62,207,142,.15);color:var(--success);border:1px solid rgba(62,207,142,.3)">${r.comissao}%</span>`:''}</div>
@@ -2163,14 +2184,14 @@ async function initApp(user) {
     document.getElementById('theme-btn').textContent = '🌙';
   }
   updateLogos(isCinza);
+  
   await load();
   calcABC();
   initMap();
   
-  // Extrair cidades dos endereços dos clientes de forma 100% segura
   customers.forEach(c => {
      if(!c.cidade) {
-         const addr = c.address || '';
+         const addr = str(c.address);
          if(addr.includes('BG')) c.cidade = 'Bento Gonçalves';
          else if(addr.includes('Garibaldi')) c.cidade = 'Garibaldi';
          else if(addr.includes('Caxias')) c.cidade = 'Caxias do Sul';
@@ -2184,7 +2205,6 @@ async function initApp(user) {
   const wc = customers.filter(c => isCoord(c.lat, c.lng));
   if(wc.length) gmap.fitBounds(L.latLngBounds(wc.map(c=>[c.lat,c.lng])), {padding:[40,40]});
   
-  // Força a tela do Mapa a aparecer logo de cara
   showPage('page-mapa');
 }
 
