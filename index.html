@@ -533,9 +533,6 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 
   <div class="page" id="page-mapa">
     <div class="map-toolbar">
-      <input id="map-search" placeholder="Buscar no mapa..." autocomplete="off"
-        oninput="onMapSearch(this.value)"
-        style="flex:1;max-width:180px;padding:5px 10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:var(--fb);font-size:12px;outline:none">
       <button class="zone-btn" data-z="NORTE" onclick="toggleZone('NORTE')">▲ Norte <span class="zbadge" id="b-NORTE">0</span></button>
       <button class="zone-btn" data-z="SUL"   onclick="toggleZone('SUL')">▼ Sul <span class="zbadge" id="b-SUL">0</span></button>
       <button class="zone-btn" data-z="LESTE" onclick="toggleZone('LESTE')">▶ Leste <span class="zbadge" id="b-LESTE">0</span></button>
@@ -1353,8 +1350,9 @@ function closeDrawerPage(){showPage(lastMainPage);}
 
 function onGlobalSearch(v){
   const active=document.querySelector('.page.active');if(!active)return;
-  const inp=active.querySelector('input[id$="-search"]');if(inp)inp.value=v;
   const id=active.id;
+  if(id==='page-mapa'){mapSearchQuery=v;renderMapMarkers();return;}
+  const inp=active.querySelector('input[id$="-search"]');if(inp)inp.value=v;
   if(id==='page-pedidos')renderPedidos();
   if(id==='page-clientes')renderClientes();
   if(id==='page-rep')renderReps();
