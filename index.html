@@ -323,6 +323,23 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 .empty-icon{font-size:42px;margin-bottom:12px}
 .empty-title{font-family:var(--fh);font-size:16px;font-weight:700;letter-spacing:.04em;margin-bottom:6px;color:var(--text)}
 .empty-sub{font-size:13px;line-height:1.6;margin-bottom:20px}
+/* ─── SKELETON LOADING ─── */
+@keyframes skel-shine{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--border) 50%,var(--bg3) 75%);background-size:200% 100%;animation:skel-shine 1.6s ease infinite;border-radius:4px}
+.skel-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.skel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.skel-lines{flex:1;display:flex;flex-direction:column;gap:7px}
+.skel-line{height:11px}
+.skel-line.short{width:55%}
+.skel-badge{width:36px;height:20px;border-radius:30px;flex-shrink:0}
+/* ─── ENTRY ANIMATION ─── */
+@keyframes fadeSlideIn{from{opacity:0;transform:translateX(-7px)}to{opacity:1;transform:translateX(0)}}
+.li-anim{animation:fadeSlideIn .2s ease both}
+/* ─── EMPTY STATE REFINADO ─── */
+.empty-icon-box{width:52px;height:52px;border-radius:14px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--muted)}
+/* ─── NAV SVG ICON ─── */
+.nav-icon{display:flex;align-items:center;justify-content:center;height:22px}
+.nav-icon svg{display:block}
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
 @media(min-width:768px){
@@ -460,7 +477,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     </div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">Entrar</button>
     <div class="login-error" id="login-error"></div>
-    <div class="login-version">VETRA ⚡ Sistema de Representação</div>
+    <div class="login-version" style="display:flex;align-items:center;justify-content:center;gap:5px">VETRA <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Sistema de Representação</div>
   </div>
 </div>
 
@@ -469,11 +486,8 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="logo"><img id="main-logo" src="logo.png" alt="Vetra" style="height:24px"></div>
   </a>
   <div class="hdr-right">
-    <button class="btn btn-ghost btn-sm" id="theme-btn" onclick="toggleTheme()" style="font-size:16px; padding:4px; border-color:transparent">☀️</button>
-    <input id="g-search" placeholder="🔍 Buscar..." oninput="onGlobalSearch(this.value)">
-    <button class="user-badge" id="user-badge" onclick="doLogout()" title="Sair da conta">
-      <span id="user-email-short">👤</span> Sair
-    </button>
+    <button class="btn btn-ghost btn-sm" id="theme-btn" onclick="toggleTheme()" style="font-size:16px; padding:6px; border-color:transparent; display:flex;align-items:center;justify-content:center"><svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+    <input id="g-search" placeholder="Buscar..." oninput="onGlobalSearch(this.value)">
     <button class="ham-btn" id="ham-btn" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
     </button>
@@ -484,26 +498,33 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 
 <div class="drawer" id="drawer">
   <div class="drawer-head">
-    <span class="drawer-title">⚡ Menu</span>
+    <span class="drawer-title" style="display:flex;align-items:center;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Menu</span>
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
   <div class="drawer-body">
     <div class="drawer-section">Painéis</div>
     <button class="drawer-btn" onclick="openDrawerPage('page-indicadores')">
-      <span class="drawer-btn-icon">📈</span> Indicadores
+      <span class="drawer-btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span> Indicadores
     </button>
     <div class="drawer-divider"></div>
     <div class="drawer-section">Cadastros</div>
     <button class="drawer-btn" id="drawer-clientes" onclick="openDrawerPage('page-clientes')">
-      <span class="drawer-btn-icon">👥</span> Clientes
+      <span class="drawer-btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Clientes
     </button>
     <button class="drawer-btn" id="drawer-rep" onclick="openDrawerPage('page-rep')">
-      <span class="drawer-btn-icon">🏢</span> Representadas
+      <span class="drawer-btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span> Representadas
+    </button>
+    <button class="drawer-btn" id="drawer-vendedores" onclick="openDrawerPage('page-vendedores')">
+      <span class="drawer-btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Vendedores
     </button>
     <div class="drawer-divider"></div>
-    <div class="drawer-section">Dados</div>
+    <div class="drawer-section">Conta</div>
+    <div style="padding:6px 4px 8px;font-size:12px;color:var(--muted);font-family:var(--fh);letter-spacing:.04em;display:flex;align-items:center;gap:6px" id="drawer-user-email"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> —</div>
     <button class="drawer-btn drawer-btn-export" onclick="doExport();closeDrawer()">
-      <span class="drawer-btn-icon">⬇</span> Exportar backup
+      <span class="drawer-btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span> Exportar backup
+    </button>
+    <button class="drawer-btn" onclick="doLogout()" style="color:var(--danger);border-color:rgba(255,68,68,.25);margin-top:4px">
+      <span class="drawer-btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> Sair da conta
     </button>
   </div>
 </div>
@@ -512,6 +533,9 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 
   <div class="page" id="page-mapa">
     <div class="map-toolbar">
+      <input id="map-search" placeholder="Buscar no mapa..." autocomplete="off"
+        oninput="onMapSearch(this.value)"
+        style="flex:1;max-width:180px;padding:5px 10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:var(--fb);font-size:12px;outline:none">
       <button class="zone-btn" data-z="NORTE" onclick="toggleZone('NORTE')">▲ Norte <span class="zbadge" id="b-NORTE">0</span></button>
       <button class="zone-btn" data-z="SUL"   onclick="toggleZone('SUL')">▼ Sul <span class="zbadge" id="b-SUL">0</span></button>
       <button class="zone-btn" data-z="LESTE" onclick="toggleZone('LESTE')">▶ Leste <span class="zbadge" id="b-LESTE">0</span></button>
@@ -559,7 +583,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="page-header">
       <div style="display:flex;align-items:center;gap:10px">
         <button class="btn btn-ghost btn-sm" onclick="closeDrawerPage()">← Voltar</button>
-        <span class="page-header-title">📈 Painel de Indicadores</span>
+        <span class="page-header-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg> Painel de Indicadores</span>
       </div>
     </div>
     <div class="page-scroll">
@@ -599,11 +623,11 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
 
   <div class="page" id="page-pedidos">
     <div class="page-header">
-      <span class="page-header-title">📋 Pedidos</span>
+      <span class="page-header-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Pedidos</span>
       <button class="btn btn-accent" onclick="openPedidoModal()">+ Novo Pedido</button>
     </div>
     <div class="page-search">
-      <input id="pedido-search" placeholder="🔍 Buscar pedido, cliente..." oninput="renderPedidos()">
+      <input id="pedido-search" placeholder="Buscar pedido, cliente..." oninput="renderPedidos()">
     </div>
     <div class="page-scroll" id="pedidos-list" style="padding:12px"></div>
   </div>
@@ -612,15 +636,15 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="page-header">
       <div style="display:flex;align-items:center;gap:10px">
         <button class="btn btn-ghost btn-sm" onclick="closeDrawerPage()">← Voltar</button>
-        <span class="page-header-title">👥 Clientes</span>
+        <span class="page-header-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Clientes</span>
       </div>
       <div style="display:flex;gap:6px">
-        <button class="btn btn-ghost btn-sm" onclick="doExport()">⬇</button>
+        <button class="btn btn-ghost btn-sm" onclick="doExport()">↓</button>
         <button class="btn btn-accent btn-sm" onclick="openClienteModal()">+ Novo</button>
       </div>
     </div>
     <div class="page-search">
-      <input id="cliente-search" placeholder="🔍 Buscar cliente, endereço..." oninput="renderClientes()">
+      <input id="cliente-search" placeholder="Buscar cliente, endereço..." oninput="renderClientes()">
     </div>
     <div class="page-scroll" id="clientes-list" style="padding:12px"></div>
   </div>
@@ -629,24 +653,37 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="page-header">
       <div style="display:flex;align-items:center;gap:10px">
         <button class="btn btn-ghost btn-sm" onclick="closeDrawerPage()">← Voltar</button>
-        <span class="page-header-title">🏢 Representadas</span>
+        <span class="page-header-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Representadas</span>
       </div>
       <button class="btn btn-accent" onclick="openRepModal()">+ Nova</button>
     </div>
     <div class="page-scroll" id="rep-list" style="padding:12px"></div>
+  </div>
+  <div class="page" id="page-vendedores">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn btn-ghost btn-sm" onclick="closeDrawerPage()">← Voltar</button>
+        <span class="page-header-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Vendedores</span>
+      </div>
+      <button class="btn btn-accent btn-sm" onclick="openVendedorModal()">+ Novo</button>
+    </div>
+    <div class="page-scroll" id="vendedores-list" style="padding:12px"></div>
   </div>
 
 </div>
 
 <nav class="bottom-nav">
   <button class="nav-item active" data-page="page-mapa" onclick="showPage('page-mapa')">
-    <span class="nav-icon">🗺️</span><span class="nav-label">Mapa</span>
+    <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span>
+    <span class="nav-label">Mapa</span>
   </button>
   <button class="nav-item" data-page="page-vendas" onclick="showPage('page-vendas')">
-    <span class="nav-icon">📊</span><span class="nav-label">Vendas</span>
+    <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+    <span class="nav-label">Vendas</span>
   </button>
   <button class="nav-item" data-page="page-pedidos" onclick="showPage('page-pedidos')">
-    <span class="nav-icon">📋</span><span class="nav-label">Pedidos</span>
+    <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+    <span class="nav-label">Pedidos</span>
   </button>
 </nav>
 
@@ -671,7 +708,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       
       <div class="form-group" style="position:relative">
         <label class="form-label">Cliente</label>
-        <input type="text" class="form-input" id="p-cliente-search" placeholder="🔍 Digite para buscar..." autocomplete="off" oninput="filterClientesPedido()" onfocus="filterClientesPedido()">
+        <input type="text" class="form-input" id="p-cliente-search" placeholder="Digite para buscar..." autocomplete="off" oninput="filterClientesPedido()" onfocus="filterClientesPedido()">
         <input type="hidden" id="p-cliente">
         <div id="p-cliente-dropdown" style="display:none;position:absolute;top:100%;left:0;width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);max-height:200px;overflow-y:auto;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,0.5)"></div>
       </div>
@@ -679,6 +716,12 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       <div class="form-group">
         <label class="form-label">Representada</label>
         <select class="form-input form-select" id="p-rep"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vendedor (Comissão)</label>
+        <select class="form-input form-select" id="p-vendedor">
+          <option value="">— Sem vendedor —</option>
+        </select>
       </div>
       <div class="form-group">
         <label class="form-label">Status</label>
@@ -708,10 +751,10 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-danger" id="p-del-btn" onclick="deletePedido()" style="display:none">🗑 Excluir</button>
+      <button class="btn btn-danger" id="p-del-btn" onclick="deletePedido()" style="display:none">Excluir</button>
       <div class="modal-fr">
         <button class="btn btn-ghost" onclick="closeModal('modal-pedido')">Cancelar</button>
-        <button class="btn btn-accent" onclick="savePedido()">💾 Salvar</button>
+        <button class="btn btn-accent" onclick="savePedido()">Salvar</button>
       </div>
     </div>
   </div>
@@ -753,10 +796,10 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-danger" id="c-del-btn" onclick="deleteCliente()" style="display:none">🗑 Excluir</button>
+      <button class="btn btn-danger" id="c-del-btn" onclick="deleteCliente()" style="display:none">Excluir</button>
       <div class="modal-fr">
         <button class="btn btn-ghost" onclick="closeModal('modal-cliente')">Cancelar</button>
-        <button class="btn btn-accent" onclick="saveCliente()">💾 Salvar</button>
+        <button class="btn btn-accent" onclick="saveCliente()">Salvar</button>
       </div>
     </div>
   </div>
@@ -804,10 +847,10 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-danger" id="r-del-btn" onclick="deleteRep()" style="display:none">🗑 Excluir</button>
+      <button class="btn btn-danger" id="r-del-btn" onclick="deleteRep()" style="display:none">Excluir</button>
       <div class="modal-fr">
         <button class="btn btn-ghost" onclick="closeModal('modal-rep')">Cancelar</button>
-        <button class="btn btn-accent" onclick="saveRep()">💾 Salvar</button>
+        <button class="btn btn-accent" onclick="saveRep()">Salvar</button>
       </div>
     </div>
   </div>
@@ -833,7 +876,63 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       <div></div>
       <div class="modal-fr">
         <button class="btn btn-ghost" onclick="closeModal('modal-meta')">Cancelar</button>
-        <button class="btn btn-accent" onclick="saveMeta()">💾 Salvar</button>
+        <button class="btn btn-accent" onclick="saveMeta()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VENDEDOR -->
+<div class="modal-back hidden" id="modal-vendedor" onclick="handleModalBackdrop(event,'modal-vendedor')">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-head">
+      <span class="modal-title" id="vendedor-modal-title">Novo Vendedor</span>
+      <button class="modal-close" onclick="closeModal('modal-vendedor')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="v-id">
+      <div class="form-group">
+        <label class="form-label">Nome do Vendedor</label>
+        <input class="form-input" id="v-nome" placeholder="Ex: João Silva">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">% Comissão</label>
+          <input class="form-input" id="v-comissao" type="number" step="0.1" placeholder="Ex: 3">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefone</label>
+          <input class="form-input" id="v-tel" placeholder="(54) 9xxxx-xxxx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observações</label>
+        <input class="form-input" id="v-obs" placeholder="Ex: Região Sul, metas específicas...">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-danger" id="v-del-btn" onclick="deleteVendedor()" style="display:none">Excluir</button>
+      <div class="modal-fr">
+        <button class="btn btn-ghost" onclick="closeModal('modal-vendedor')">Cancelar</button>
+        <button class="btn btn-accent" onclick="saveVendedor()">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CLIENTE DETALHE (Resumo estilo Mercos) -->
+<div class="modal-back hidden" id="modal-detalhe" onclick="handleModalBackdrop(event,'modal-detalhe')">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-head">
+      <span class="modal-title" id="detalhe-nome" style="font-size:15px">Cliente</span>
+      <button class="modal-close" onclick="closeModal('modal-detalhe')">✕</button>
+    </div>
+    <div class="modal-body" id="detalhe-body" style="padding:0"></div>
+    <div class="modal-foot">
+      <div></div>
+      <div class="modal-fr">
+        <button class="btn btn-ghost" onclick="closeModal('modal-detalhe')">Fechar</button>
+        <button class="btn btn-accent" id="detalhe-edit-btn">Editar</button>
       </div>
     </div>
   </div>
@@ -973,8 +1072,8 @@ const CLat=-29.1710, CLng=-51.5192;
 const ZC={NORTE:'#4a9eff',SUL:'#3ecf8e',LESTE:'#ff7043',OESTE:'#b57bee'};
 const ABC_COLOR={A:'#f5a623',B:'#4a9eff',C:'#7a8099'};
 
-let customers=[], pedidos=[], representadas=[], metas={};
-let activeZones=new Set(), abcMode=false;
+let customers=[], pedidos=[], representadas=[], metas={}, vendedores=[];
+let activeZones=new Set(), abcMode=false, mapSearchQuery='';
 let gmap, mapTileLayer, markerObjs={};
 let salesChart=null, chartCart=null, chartPosit=null, chartAbc=null, chartHist=null;
 let currentEditPedido=null, currentEditCliente=null, currentEditRep=null;
@@ -1015,7 +1114,9 @@ function updateLogos(isCinza) {
 function toggleTheme() {
   const isCinza = document.body.classList.toggle('theme-cinza');
   localStorage.setItem('vetra_theme', isCinza ? 'cinza' : 'escuro');
-  document.getElementById('theme-btn').textContent = isCinza ? '🌙' : '☀️';
+  const sunSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+  const moonSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+  document.getElementById('theme-btn').innerHTML = isCinza ? moonSvg : sunSvg;
   
   updateLogos(isCinza);
   setMapTheme();
@@ -1096,13 +1197,15 @@ function mkCustomer(r){
 // ══════════════════════════════════════════════════
 async function load(){
   try{
-    const[rCli,rPed,rRep,rMet]=await Promise.all([
+    const[rCli,rPed,rRep,rMet,rVend]=await Promise.all([
       supabaseClient.from('clientes').select('*'),
       supabaseClient.from('pedidos').select('*'),
       supabaseClient.from('representadas').select('*'),
-      supabaseClient.from('metas').select('*')
+      supabaseClient.from('metas').select('*'),
+      supabaseClient.from('vendedores').select('*').catch(()=>({data:[]}))
     ]);
     pedidos=rPed.data||[]; representadas=rRep.data||[]; metas={};
+    vendedores=rVend.data||[];
     (rMet.data||[]).forEach(m=>metas[m.mes]=m.valor);
     const saved=rCli.data||[];
     if(saved.length===0){
@@ -1152,9 +1255,12 @@ function renderMapMarkers(){
   Object.values(markerObjs).forEach(m=>gmap.removeLayer(m));
   markerObjs={};
   const showAll=activeZones.size===0;
+  const mq=mapSearchQuery.toLowerCase().trim();
   customers.forEach(c=>{
     if(!isCoord(c.lat,c.lng))return;
     if(!showAll&&!activeZones.has(c.zone))return;
+    // Filter by map search
+    if(mq && !c.name.toLowerCase().includes(mq) && !(c.address||'').toLowerCase().includes(mq))return;
     
     let color = ZC[c.zone]||'#aaa';
     if (abcMode) {
@@ -1180,11 +1286,11 @@ function renderMapMarkers(){
       <div style="font-family:var(--fh);font-weight:800;font-size:15px;color:${color};margin-bottom:3px">${esc(c.name)}</div>
       <div style="font-size:11px;color:var(--muted);margin-bottom:4px">${esc(c.address)}</div>
       ${abcMode?`<div style="font-size:11px;color:${color};font-weight:700;margin-bottom:4px">Curva ${c.curva} · ${totalvendas}</div>`:''}
-      ${c.notes?`<div style="font-size:11px;color:var(--accent);margin-bottom:6px">📝 ${esc(c.notes)}</div>`:''}
+      ${c.notes?`<div style="font-size:11px;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:4px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> ${esc(c.notes)}</div>`:''}
       <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px">
-        <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;background:var(--accent);color:var(--accent-txt);border:none;border-radius:4px;padding:5px 9px;cursor:pointer" onclick="window.open('http://google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}')">🚗 Navegar</button>
+        <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;background:var(--accent);color:var(--accent-txt);border:none;border-radius:4px;padding:5px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:4px" onclick="window.open('http://google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg> Navegar</button>
         <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;padding:5px 9px;cursor:pointer" onclick="toggleVisited('${c.id}')">${c.visited?'↩ Desfazer':'✔ Visitado'}</button>
-        <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;padding:5px 9px;cursor:pointer" onclick="openClienteModal('${c.id}')">✏ Editar</button>
+        <button style="font-family:var(--fh);font-weight:700;font-size:11px;text-transform:uppercase;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:4px;padding:5px 9px;cursor:pointer" onclick="openClienteModal('${c.id}')">Editar</button>
       </div>
     </div>`,{maxWidth:280,minWidth:240});
     markerObjs[c.id]=m;
@@ -1240,6 +1346,7 @@ function openDrawerPage(pageId){
   document.getElementById(pageId).classList.add('active');
   if(pageId==='page-clientes')renderClientes();
   if(pageId==='page-rep')renderReps();
+  if(pageId==='page-vendedores')renderVendedores();
   if(pageId==='page-indicadores')renderIndicadores();
 }
 function closeDrawerPage(){showPage(lastMainPage);}
@@ -1353,7 +1460,7 @@ function renderVendas(){
   document.getElementById('meta-bar').innerHTML=`<div class="meta-header" style="margin-bottom:${metaMes>0?'10px':'0'}"><span class="meta-title">🎯 Meta — ${fmtMesShort(mes)}</span><div style="font-size:12px;color:var(--muted)">${metaMes>0?`<span style="color:var(--text);font-weight:600">${fmtBRL(vendidoTotal)}</span> de <span style="color:var(--text);font-weight:600">${fmtBRL(metaMes)}</span>`:''}</div></div>${metaMes>0?`<div class="meta-progress-wrap"><div class="meta-progress" style="width:${pct}%"></div></div><div class="meta-values"><div><span style="color:${pctColor}">${pct}% realizado</span></div><div>Meta: <span>${fmtBRL(metaMes)}</span></div></div>`:'<div style="font-size:12px;color:var(--muted)">Meta não definida — <button class="btn btn-ghost btn-sm" onclick="openMetaModal()" style="display:inline-flex">Definir agora</button></div>'}`;
 
   const sorted=[...customers].filter(c=>c.totalvendas>0).sort((a,b)=>b.totalvendas-a.totalvendas).slice(0,20);
-  if(!sorted.length){document.getElementById('abc-table').innerHTML=`<div class="empty-state" style="padding:24px"><div class="empty-icon">📦</div><div class="empty-sub">Cadastre pedidos para curva ABC.</div></div>`;return;}
+  if(!sorted.length){document.getElementById('abc-table').innerHTML=`<div class="empty-state" style="padding:24px"><div class="empty-icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><div class="empty-sub">Cadastre pedidos para gerar a curva ABC.</div></div>`;return;}
   document.getElementById('abc-table').innerHTML=`<table style="width:100%;border-collapse:collapse"><thead><tr style="border-bottom:1px solid var(--border)"><th style="padding:10px 16px;text-align:left;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Cliente</th><th style="padding:10px 8px;text-align:right;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Total</th><th style="padding:10px 16px;text-align:center;font-family:var(--fh);font-size:10px;text-transform:uppercase;color:var(--muted)">Curva</th></tr></thead><tbody>${sorted.map(c=>`<tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 16px;font-family:var(--fh);font-weight:700;font-size:13px">${esc(c.name)}</td><td style="padding:10px 8px;text-align:right;font-size:12px;color:var(--accent);font-weight:600">${fmtBRL(c.totalvendas)}</td><td style="padding:10px 16px;text-align:center"><span class="badge badge-${c.curva}">${c.curva}</span></td></tr>`).join('')}</tbody></table>`;
 }
 
@@ -1511,6 +1618,28 @@ function renderIndicadores(){
 }
 
 // ══════════════════════════════════════════════════
+// SKELETON & ANIMATION HELPERS
+// ══════════════════════════════════════════════════
+function renderSkeleton(el, count=5) {
+  el.innerHTML = Array.from({length: count}, () =>
+    `<div class="skel-item">
+      <div class="skel skel-dot"></div>
+      <div class="skel-lines">
+        <div class="skel skel-line"></div>
+        <div class="skel skel-line short"></div>
+      </div>
+      <div class="skel skel-badge"></div>
+    </div>`
+  ).join('');
+}
+function animateListItems(el) {
+  el.querySelectorAll('.list-item').forEach((item, i) => {
+    item.style.animationDelay = (i * 28) + 'ms';
+    item.classList.add('li-anim');
+  });
+}
+
+// ══════════════════════════════════════════════════
 // PEDIDOS (AGRUPAMENTO INTELIGENTE)
 // ══════════════════════════════════════════════════
 function renderPedidos(){
@@ -1527,7 +1656,12 @@ function renderPedidos(){
 
   const el=document.getElementById('pedidos-list');
   if(!list.length){
-    el.innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">Nenhum pedido</div><button class="btn btn-accent" onclick="openPedidoModal()">+ Novo Pedido</button></div>`;
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+      <div class="empty-title">${q?'Nenhum resultado':'Nenhum pedido'}</div>
+      <div class="empty-sub">${q?'Tente um termo diferente.':'Registre o primeiro pedido para começar.'}</div>
+      ${!q?`<button class="btn btn-accent" onclick="openPedidoModal()">+ Novo Pedido</button>`:''}
+    </div>`;
     return;
   }
 
@@ -1566,6 +1700,7 @@ function renderPedidos(){
   });
 
   el.innerHTML = html;
+  animateListItems(el);
 }
 
 function openPedidoModal(id){
@@ -1712,19 +1847,143 @@ function renderClientes(){
   let list=[...customers].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
   if(q)list=list.filter(c=>c.name.toLowerCase().includes(q)||c.address.toLowerCase().includes(q));
   const el=document.getElementById('clientes-list');
-  if(!list.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">Nenhum cliente</div></div>`;return;}
-  el.innerHTML=list.map(c=>`<div class="list-item" onclick="openClienteModal('${c.id}')">
+  if(!list.length){
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="empty-title">${q?'Sem resultados':'Nenhum cliente'}</div>
+      <div class="empty-sub">${q?'Tente outro termo de busca.':'Adicione clientes para começar.'}</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML=list.map(c=>`<div class="list-item" onclick="openClienteDetalhe('${c.id}')">
     <div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px;background:${ZC[c.zone]||'var(--muted)'}"></div>
     <div class="list-item-info">
       <div class="list-item-name">${esc(c.name)}</div>
       <div class="list-item-sub">${esc(c.address)}</div>
-      ${c.notes?`<div style="font-size:10px;color:var(--accent);margin-top:2px">📝 ${esc(c.notes)}</div>`:''}
+      ${c.notes?`<div style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> ${esc(c.notes)}</div>`:''}
     </div>
     <div class="list-item-actions">
       ${c.curva?`<span class="badge badge-${c.curva}">${c.curva}</span>`:''}
-      ${c.visited?'<span style="font-size:11px;color:var(--success)">✔</span>':''}
+      ${c.visited?`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`:''}
     </div>
   </div>`).join('');
+  animateListItems(el);
+}
+
+// ── RESUMO DO CLIENTE (estilo Mercos) ──
+function openClienteDetalhe(id){
+  const c = customers.find(x=>x.id===id);
+  if(!c) return;
+
+  // Pedidos do cliente (não cancelados)
+  const cpedidos = pedidos.filter(p=>p.clienteid===id && p.status!=='cancelado');
+  const faturados = pedidos.filter(p=>p.clienteid===id && p.status==='faturado');
+
+  const totalCompras = faturados.reduce((s,p)=>s+(p.total||0),0);
+  const numPedidos   = cpedidos.length;
+  const ticketMedio  = numPedidos>0 ? totalCompras/numPedidos : 0;
+
+  // Dias sem comprar
+  let diasSemComprar = null;
+  if(faturados.length){
+    const datas = faturados.map(p=>p.data).filter(Boolean).sort().reverse();
+    if(datas[0]){
+      const ultima = new Date(datas[0]);
+      const hoje   = new Date();
+      diasSemComprar = Math.floor((hoje-ultima)/(1000*60*60*24));
+    }
+  }
+
+  // Ranking entre todos os clientes
+  calcABC();
+  const sorted=[...customers]
+    .map(x=>({id:x.id,total:x.totalvendas||0}))
+    .sort((a,b)=>b.total-a.total);
+  const rank = sorted.findIndex(x=>x.id===id)+1;
+
+  // Compras por representada
+  const porRep={};
+  faturados.forEach(p=>{
+    const rId=p.representadaid||'_sem';
+    if(!porRep[rId])porRep[rId]=0;
+    porRep[rId]+=(p.total||0);
+  });
+  const repRows=Object.entries(porRep).map(([rId,val])=>{
+    const r=representadas.find(x=>x.id===rId);
+    const pct=totalCompras>0?((val/totalCompras)*100).toFixed(1):0;
+    return`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span style="font-family:var(--fh);font-weight:700;font-size:13px">${esc(r?.nome||'Sem representada')}</span>
+      <div style="text-align:right">
+        <div style="font-family:var(--fh);font-weight:800;font-size:14px;color:var(--accent)">${fmtBRL(val)}</div>
+        <div style="font-size:10px;color:var(--muted)">${pct}%</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Monta o modal
+  document.getElementById('detalhe-nome').textContent = c.name;
+  document.getElementById('detalhe-edit-btn').onclick = ()=>{ closeModal('modal-detalhe'); openClienteModal(id); };
+
+  document.getElementById('detalhe-body').innerHTML = `
+    <!-- Stats header -->
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg3)">
+      <div style="font-family:var(--fh);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Últimos dados</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
+          <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--bg3);color:var(--accent)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.75 5.25 10.5 10.5 14.25 6.75 20.25 12"/><path d="M15.75 12H20.25V7.5"/></svg></span>
+          <div>
+            <div style="font-family:var(--fh);font-weight:900;font-size:22px;color:var(--accent);line-height:1">${rank > 0 ? rank+'º' : '—'}</div>
+            <div style="font-size:11px;color:var(--muted)">Cliente que mais compra</div>
+          </div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
+          <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--bg3);color:var(--success)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <div>
+            <div style="font-family:var(--fh);font-weight:900;font-size:16px;color:var(--success);line-height:1">${fmtBRL(totalCompras)}</div>
+            <div style="font-size:11px;color:var(--muted)">Em compras</div>
+          </div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
+          <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--bg3);color:var(--muted)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <div>
+            <div style="font-family:var(--fh);font-weight:900;font-size:22px;line-height:1">${numPedidos}</div>
+            <div style="font-size:11px;color:var(--muted)">Pedidos realizados</div>
+          </div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
+          <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--bg3);color:var(--north)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <div>
+            <div style="font-family:var(--fh);font-weight:900;font-size:16px;color:var(--north);line-height:1">${fmtBRL(ticketMedio)}</div>
+            <div style="font-size:11px;color:var(--muted)">Ticket médio</div>
+          </div>
+        </div>
+      </div>
+      ${diasSemComprar!==null?`
+      <div style="margin-top:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;display:flex;align-items:center;gap:10px">
+        <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--bg3);color:var(--muted)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <div>
+          <div style="font-family:var(--fh);font-weight:900;font-size:22px;color:${diasSemComprar>60?'var(--danger)':diasSemComprar>30?'var(--accent)':'var(--success)'};line-height:1">${diasSemComprar}</div>
+          <div style="font-size:11px;color:var(--muted)">Dias sem comprar</div>
+        </div>
+      </div>`:''}
+    </div>
+    <!-- Curva ABC -->
+    <div style="padding:10px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+      <span style="font-family:var(--fh);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Curva ABC</span>
+      <span class="badge badge-${c.curva||'C'}">${c.curva||'C'}</span>
+    </div>
+    <!-- Compras por representada -->
+    <div style="padding:10px 18px 0">
+      <div style="font-family:var(--fh);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px">Compras por Representada</div>
+      ${repRows||`<div style="font-size:12px;color:var(--muted);padding:12px 0">Sem pedidos faturados.</div>`}
+    </div>
+    <!-- Endereço -->
+    <div style="padding:12px 18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${esc(c.address||'Sem endereço')}</span>
+      ${c.tel?`<span style="display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.08 6.08l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg>${esc(c.tel)}</span>`:''}
+    </div>`;
+
+  openModal('modal-detalhe');
 }
 
 function openClienteModal(id){
@@ -1779,10 +2038,84 @@ function deleteCliente(){
 }
 
 function doExport(){
-  const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),customers,pedidos,representadas,metas},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),customers,pedidos,representadas,metas,vendedores},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`vetra_backup_${new Date().toISOString().slice(0,10)}.json`;a.click();
   toast('Backup exportado!','success');
+}
+
+// ── BUSCA NO MAPA ──
+function onMapSearch(v){
+  mapSearchQuery=v;
+  renderMapMarkers();
+}
+
+// ── VENDEDORES CRUD ──
+function renderVendedores(){
+  const el=document.getElementById('vendedores-list');
+  if(!el)return;
+  if(!vendedores.length){
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="empty-title">Nenhum vendedor</div>
+      <div class="empty-sub">Cadastre vendedores para vincular aos pedidos e calcular comissões.</div>
+      <button class="btn btn-accent" onclick="openVendedorModal()">+ Novo Vendedor</button>
+    </div>`;
+    return;
+  }
+  el.innerHTML=vendedores.map(v=>{
+    const totalV=pedidos.filter(p=>p.vendedorid===v.id&&p.status==='faturado').reduce((s,p)=>s+(p.total||0),0);
+    const comissao=totalV*(v.comissao||0)/100;
+    return`<div class="list-item" onclick="openVendedorModal('${v.id}')">
+      <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="list-item-info">
+        <div class="list-item-name">${esc(v.nome)}</div>
+        <div class="list-item-sub">${v.tel||''}${v.obs?' · '+v.obs:''}</div>
+        <div style="font-size:11px;margin-top:3px;color:var(--success)">Faturado: ${fmtBRL(totalV)}${v.comissao?' · Comissão: '+fmtBRL(comissao):''}</div>
+      </div>
+      <div class="list-item-actions">
+        ${v.comissao?`<span class="badge" style="background:rgba(62,207,142,.15);color:var(--success);border:1px solid rgba(62,207,142,.3)">${v.comissao}%</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  animateListItems(el);
+}
+
+function openVendedorModal(id){
+  const v=id?vendedores.find(x=>x.id===id):null;
+  document.getElementById('vendedor-modal-title').textContent=v?'Editar Vendedor':'Novo Vendedor';
+  document.getElementById('v-id').value=v?.id||'';
+  document.getElementById('v-nome').value=v?.nome||'';
+  document.getElementById('v-comissao').value=v?.comissao||'';
+  document.getElementById('v-tel').value=v?.tel||'';
+  document.getElementById('v-obs').value=v?.obs||'';
+  document.getElementById('v-del-btn').style.display=v?'inline-flex':'none';
+  openModal('modal-vendedor');
+}
+
+async function saveVendedor(){
+  const id=document.getElementById('v-id').value||uid();
+  const nome=document.getElementById('v-nome').value.trim();
+  if(!nome){toast('Informe o nome','error');return;}
+  const v={id,nome,
+    comissao:parseFloat(document.getElementById('v-comissao').value)||0,
+    tel:document.getElementById('v-tel').value.trim(),
+    obs:document.getElementById('v-obs').value.trim()
+  };
+  await supabaseClient.from('vendedores').upsert(v);
+  const idx=vendedores.findIndex(x=>x.id===id);
+  if(idx>-1)vendedores[idx]=v;else vendedores.push(v);
+  closeModal('modal-vendedor');renderVendedores();
+  toast(idx>-1?'Vendedor atualizado!':'Vendedor cadastrado!','success');
+}
+
+function deleteVendedor(){
+  const id=document.getElementById('v-id').value;
+  showConfirm('Excluir Vendedor','Deseja excluir este vendedor?',async()=>{
+    await supabaseClient.from('vendedores').delete().eq('id',id);
+    vendedores=vendedores.filter(x=>x.id!==id);
+    closeModal('modal-vendedor');renderVendedores();toast('Excluído','info');
+  });
 }
 
 // ══════════════════════════════════════════════════
@@ -1791,14 +2124,19 @@ function doExport(){
 function renderReps(){
   const el=document.getElementById('rep-list');
   if(!representadas.length){
-    el.innerHTML=`<div class="empty-state"><div class="empty-icon">🏢</div><div class="empty-title">Nenhuma representada</div><div class="empty-sub">Cadastre as empresas que você representa.</div><button class="btn btn-accent" onclick="openRepModal()">+ Nova Representada</button></div>`;
+    el.innerHTML=`<div class="empty-state">
+      <div class="empty-icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+      <div class="empty-title">Nenhuma representada</div>
+      <div class="empty-sub">Cadastre as empresas que você representa.</div>
+      <button class="btn btn-accent" onclick="openRepModal()">+ Nova Representada</button>
+    </div>`;
     return;
   }
   el.innerHTML=representadas.map(r=>{
     const totalRep=pedidos.filter(p=>p.representadaid===r.id&&p.status==='faturado').reduce((s,p)=>s+(p.total||0),0);
     const comissao=totalRep*(r.comissao||0)/100;
     return`<div class="list-item" onclick="openRepModal('${r.id}')">
-      <div style="font-size:24px;flex-shrink:0">🏢</div>
+      <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
       <div class="list-item-info">
         <div class="list-item-name">${esc(r.nome)}</div>
         <div class="list-item-sub">${r.cnpj||''}${r.contato?' · '+r.contato:''}</div>
@@ -1807,6 +2145,7 @@ function renderReps(){
       <div class="list-item-actions">${r.comissao?`<span class="badge" style="background:rgba(62,207,142,.15);color:var(--success);border:1px solid rgba(62,207,142,.3)">${r.comissao}%</span>`:''}</div>
     </div>`;
   }).join('');
+  animateListItems(el);
 }
 
 function openRepModal(id){
@@ -1901,7 +2240,7 @@ function showLoginScreen() {
   const isCinza = localStorage.getItem('vetra_theme') === 'cinza';
   if(isCinza) {
     document.body.classList.add('theme-cinza');
-    document.getElementById('theme-btn').textContent = '🌙';
+    document.getElementById('theme-btn').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
   }
   updateLogos(isCinza);
   setTimeout(() => document.getElementById('login-email').focus(), 300);
@@ -1911,7 +2250,8 @@ function showApp(user) {
   document.getElementById('loading-screen').classList.remove('visible');
   document.getElementById('login-screen').classList.remove('visible');
   const emailShort = user.email.split('@')[0];
-  document.getElementById('user-email-short').textContent = emailShort;
+  const drawerEmail = document.getElementById('drawer-user-email');
+  if(drawerEmail) drawerEmail.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ` + emailShort;
 }
 
 async function doLogin() {
@@ -1956,9 +2296,14 @@ async function initApp(user) {
   const isCinza = localStorage.getItem('vetra_theme') === 'cinza';
   if(isCinza) {
     document.body.classList.add('theme-cinza');
-    document.getElementById('theme-btn').textContent = '🌙';
+    document.getElementById('theme-btn').innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
   }
   updateLogos(isCinza);
+  // Show skeleton placeholders while data loads
+  ['pedidos-list','clientes-list','rep-list','vendedores-list'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) renderSkeleton(el);
+  });
   await load();
   calcABC();
   initMap();
