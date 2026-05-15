@@ -16,6 +16,9 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <style>
 /* ═══════════════ TOKENS (MODO ESCURO - PADRÃO) ═══════════════ */
 :root{
@@ -538,6 +541,9 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
       <button class="zone-btn" data-z="LESTE" onclick="toggleZone('LESTE')">▶ Leste <span class="zbadge" id="b-LESTE">0</span></button>
       <button class="zone-btn" data-z="OESTE" onclick="toggleZone('OESTE')">◀ Oeste <span class="zbadge" id="b-OESTE">0</span></button>
       <button class="btn btn-ghost btn-sm" onclick="clearMapZones()" style="margin-left:4px">✕</button>
+      <select id="map-city-filter" class="form-input form-select" style="width:auto;padding:3px 24px 3px 8px;font-size:11px;height:26px;font-family:var(--fh);text-transform:uppercase;margin-left:8px;" onchange="filterMapByCity(this.value)">
+        <option value="">TODAS AS CIDADES</option>
+      </select>
       <div class="abc-toggle">
         <span class="abc-toggle-label">Curva ABC</span>
         <div class="toggle-box" id="abc-toggle" onclick="toggleABC()"></div>
@@ -621,7 +627,11 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
   <div class="page" id="page-pedidos">
     <div class="page-header">
       <span class="page-header-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Pedidos</span>
-      <button class="btn btn-accent" onclick="openPedidoModal()">+ Novo Pedido</button>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input type="file" id="pdf-mercos-input" accept=".pdf" style="display:none" onchange="handlePDFImport(this)">
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('pdf-mercos-input').click()" title="Importar orçamento do Mercos (PDF)">⚡ Importar PDF</button>
+        <button class="btn btn-accent" onclick="openPedidoModal()">+ Novo Pedido</button>
+      </div>
     </div>
     <div class="page-search">
       <input id="pedido-search" placeholder="Buscar pedido, cliente..." oninput="renderPedidos()">
@@ -750,6 +760,7 @@ body.theme-cinza .leaflet-tile-pane { filter: none !important; }
     <div class="modal-foot">
       <button class="btn btn-danger" id="p-del-btn" onclick="deletePedido()" style="display:none">Excluir</button>
       <div class="modal-fr">
+        <button class="btn btn-ghost" id="p-pdf-btn" onclick="gerarPdfPedido()" style="display:none">📄 PDF</button>
         <button class="btn btn-ghost" onclick="closeModal('modal-pedido')">Cancelar</button>
         <button class="btn btn-accent" onclick="savePedido()">Salvar</button>
       </div>
@@ -1258,6 +1269,8 @@ function renderMapMarkers(){
     if(!showAll&&!activeZones.has(c.zone))return;
     // Filter by map search
     if(mq && !c.name.toLowerCase().includes(mq) && !(c.address||'').toLowerCase().includes(mq))return;
+    // Filter by city
+    if(activeCity && extractCity(c.address) !== activeCity) return;
     
     let color = ZC[c.zone]||'#aaa';
     if (abcMode) {
@@ -1711,6 +1724,7 @@ function openPedidoModal(id){
   document.getElementById('p-status').value=p?.status||'pendente';
   document.getElementById('p-obs').value=p?.obs||'';
   document.getElementById('p-del-btn').style.display=p?'inline-flex':'none';
+  document.getElementById('p-pdf-btn').style.display=p?'inline-flex':'none';
   
   const cId = p?.clienteid || '';
   document.getElementById('p-cliente').value = cId;
@@ -2017,7 +2031,7 @@ async function saveCliente(){
   if(idx>-1)customers[idx]={...customers[idx],...c};else customers.push(c);
   
   closeModal('modal-cliente');
-  renderClientes();renderMapMarkers();updMapBadges();
+  renderClientes();renderMapMarkers();updMapBadges();populateCityFilter();
   
   if(isAddingClientFromPedido) {
     selectClientePedido(c.id, c.name);
@@ -2031,7 +2045,7 @@ function deleteCliente(){
   showConfirm('Excluir Cliente','Excluir?',async()=>{
     await supabaseClient.from('clientes').delete().eq('id',id);
     customers=customers.filter(x=>x.id!==id);
-    closeModal('modal-cliente');renderClientes();renderMapMarkers();updMapBadges();toast('Excluído','info');
+    closeModal('modal-cliente');renderClientes();renderMapMarkers();updMapBadges();populateCityFilter();toast('Excluído','info');
   });
 }
 
@@ -2304,12 +2318,298 @@ async function initApp(user) {
   });
   await load();
   calcABC();
+  populateCityFilter();
   initMap();
   renderMapMarkers();
   updMapBadges();
   const wc = customers.filter(c => isCoord(c.lat, c.lng));
   if(wc.length) gmap.fitBounds(L.latLngBounds(wc.map(c=>[c.lat,c.lng])), {padding:[40,40]});
   showPage('page-mapa');
+}
+
+// ══════════════════════════════════════════════════
+// FILTRO DE CIDADE NO MAPA
+// ══════════════════════════════════════════════════
+let activeCity = '';
+
+function extractCity(address) {
+  if (!address) return '';
+  const parts = address.split(/[,\-]+/);
+  return parts[parts.length - 1].trim().toUpperCase();
+}
+
+function populateCityFilter() {
+  const select = document.getElementById('map-city-filter');
+  if (!select) return;
+  const cities = new Set();
+  customers.forEach(c => {
+    const city = extractCity(c.address);
+    if (city) cities.add(city);
+  });
+  select.innerHTML = '<option value="">TODAS AS CIDADES</option>';
+  [...cities].sort().forEach(city => {
+    select.innerHTML += `<option value="${city}">${city}</option>`;
+  });
+  if (activeCity) select.value = activeCity;
+}
+
+function filterMapByCity(city) {
+  activeCity = city;
+  renderMapMarkers();
+}
+
+// ══════════════════════════════════════════════════
+// IMPORTADOR DE PDF DO MERCOS
+// ══════════════════════════════════════════════════
+async function handlePDFImport(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = ''; // reset para permitir reimportar mesmo arquivo
+  toast('Lendo PDF...', 'info');
+  try {
+    if (typeof pdfjsLib === 'undefined') { toast('Biblioteca PDF não carregada. Verifique sua conexão.', 'error'); return; }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const reader = new FileReader();
+    reader.onload = async function() {
+      try {
+        const typedarray = new Uint8Array(this.result);
+        const pdf = await pdfjsLib.getDocument(typedarray).promise;
+        let fullText = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          fullText += textContent.items.map(s => s.str).join(' ') + '\n';
+        }
+        processMercosData(fullText);
+      } catch(e) {
+        toast('Erro ao processar PDF: ' + e.message, 'error');
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  } catch(e) {
+    toast('Erro ao ler arquivo: ' + e.message, 'error');
+  }
+}
+
+function processMercosData(text) {
+  // Extrai dados do orçamento Mercos/Ageplast
+  const nOrc = text.match(/Or[çc]amento\s+N[oº°]\s*(\d+)/i)?.[1] || '';
+  const cliente = text.match(/Cliente:\s*([\s\S]*?)(?:Nome Fantasia:|CNPJ:)/i)?.[1]?.trim() || '';
+  const nomeFantasia = text.match(/Nome Fantasia:\s*([\s\S]*?)(?:CNPJ:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const cnpj = text.match(/CNPJ:\s*([\d.\/\-]+)/i)?.[1]?.trim() || '';
+  const endereco = text.match(/Endere[çc]o:\s*([\s\S]*?)(?:Bairro:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const bairro = text.match(/Bairro:\s*([\s\S]*?)(?:CEP:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const cidade = text.match(/Cidade:\s*([\s\S]*?)(?:Estado:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const estado = text.match(/Estado:\s*([\s\S]*?)(?:Telefone:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const telefone = text.match(/Telefone:\s*([\s\S]*?)(?:E-mail:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const representada = text.match(/Representada:\s*([\s\S]*?)(?:Cliente:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const cond = text.match(/Condi[çc][aã]o de Pagamento:\s*([\s\S]*?)(?:Data de Emiss[aã]o:|$)/i)?.[1]?.trim().split('\n')[0] || '';
+  const dataEmissao = text.match(/Data de Emiss[aã]o:\s*([\d\/]+)/i)?.[1] || '';
+  const transportadora = text.match(/Transportadora:\s*([\s\S]*?)(?:\n|$)/i)?.[1]?.trim() || '';
+  
+  // Extrai valor total
+  const valorMatch = text.match(/Valor total[^R]*R\$\s*([\d.,]+)/i);
+  const valorTotal = valorMatch ? parseCurrencyStr(valorMatch[1]) : 0;
+
+  // Extrai itens da tabela
+  const itens = [];
+  // Padrão: código, produto, qtde, unidade, preço líquido, preço c/impostos, subtotal
+  const linhaRe = /([A-Z]{2}\d{3}[\w.]+)\s+([\s\S]+?)\s+(\d+)\s+(MT|PC|UN|CX|KG|M²)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)/gi;
+  let m;
+  while ((m = linhaRe.exec(text)) !== null) {
+    itens.push({
+      desc: `[${m[1]}] ${m[2].replace(/\s+/g, ' ').trim()}`,
+      qtd: parseFloat(m[3]) || 1,
+      vlr: parseCurrencyStr(m[5])
+    });
+  }
+  // Fallback se regex não pegou itens
+  if (itens.length === 0 && valorTotal > 0) {
+    itens.push({ desc: 'Ver orçamento original', qtd: 1, vlr: valorTotal });
+  }
+
+  const nomeCliente = nomeFantasia || cliente;
+  const enderecoCompleto = [endereco, bairro, cidade, estado].filter(Boolean).join(', ');
+
+  // Verifica se cliente já existe
+  let clienteExistente = null;
+  if (cnpj) clienteExistente = customers.find(c => (c.document||'').replace(/\D/g,'') === cnpj.replace(/\D/g,''));
+  if (!clienteExistente && nomeCliente) clienteExistente = customers.find(c => c.name.toLowerCase().includes(nomeCliente.toLowerCase().slice(0,10)));
+
+  // Monta número do pedido baseado no orçamento
+  const numero = nOrc ? `ORC-${nOrc}` : autoNumeroPedido();
+  const hoje = new Date().toISOString().slice(0,10);
+
+  // Abre modal de pedido já preenchido
+  openPedidoModal();
+  document.getElementById('p-numero').value = numero;
+  document.getElementById('p-data').value = dataEmissao ? parseDataBR(dataEmissao) : hoje;
+  document.getElementById('p-obs').value = [
+    cond ? `Cond. pagamento: ${cond}` : '',
+    transportadora ? `Transportadora: ${transportadora}` : '',
+    representada ? `Representada: ${representada}` : ''
+  ].filter(Boolean).join(' | ');
+
+  // Preenche representada se existir
+  const repEl = document.getElementById('p-rep');
+  if (representada && repEl) {
+    const repObj = representadas.find(r => r.nome.toLowerCase().includes(representada.toLowerCase().slice(0,6)));
+    if (repObj) repEl.value = repObj.id;
+  }
+
+  if (clienteExistente) {
+    selectClientePedido(clienteExistente.id, clienteExistente.name);
+    toast(`Cliente encontrado: ${clienteExistente.name}`, 'success');
+  } else {
+    toast(`Cliente não cadastrado. Cadastre "${nomeCliente}" e vincule ao pedido.`, 'info');
+    // Preenche o campo de busca para facilitar
+    document.getElementById('p-cliente-search').value = nomeCliente;
+  }
+
+  // Preenche itens
+  document.getElementById('p-itens').innerHTML = '';
+  itens.forEach(i => addItemRow(i));
+  calcTotal();
+  
+  toast(`PDF importado! ${itens.length} item(ns) carregado(s). Revise e salve.`, 'success');
+}
+
+function parseCurrencyStr(str) {
+  if (!str) return 0;
+  return parseFloat(str.replace(/\./g,'').replace(',','.')) || 0;
+}
+
+function parseDataBR(str) {
+  // "14/05/2026" → "2026-05-14"
+  const p = str.split('/');
+  if (p.length === 3) return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+  return new Date().toISOString().slice(0,10);
+}
+
+// ══════════════════════════════════════════════════
+// GERADOR DE PDF DO PEDIDO (jsPDF)
+// ══════════════════════════════════════════════════
+function gerarPdfPedido() {
+  const id = document.getElementById('p-id').value;
+  const p = pedidos.find(x => x.id === id);
+  if (!p) { toast('Salve o pedido antes de gerar o PDF.', 'error'); return; }
+
+  if (typeof window.jspdf === 'undefined') { toast('Biblioteca jsPDF não carregada.', 'error'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const isCinza = document.body.classList.contains('theme-cinza');
+
+  // Cores
+  const headerBg = isCinza ? [15, 23, 42] : [15, 17, 23];
+  const accentC = [245, 166, 35];
+
+  // ── Cabeçalho ──
+  doc.setFillColor(...headerBg);
+  doc.rect(0, 0, 210, 38, 'F');
+  doc.setFillColor(...accentC);
+  doc.rect(0, 35, 210, 3, 'F');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(22);
+  doc.setTextColor(255, 255, 255);
+  doc.text('VETRA', 14, 20);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Sistema de Representação Comercial', 14, 27);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor(...accentC);
+  doc.text(`PEDIDO Nº ${p.numero || p.id.slice(-6).toUpperCase()}`, 210 - 14, 16, { align: 'right' });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(200, 200, 200);
+  doc.text(`Data: ${p.data ? p.data.split('-').reverse().join('/') : '—'}`, 210 - 14, 23, { align: 'right' });
+  doc.text(`Status: ${(p.status || '').toUpperCase()}`, 210 - 14, 29, { align: 'right' });
+
+  // ── Dados do Cliente ──
+  let y = 48;
+  const cliente = customers.find(c => c.id === p.clienteid);
+  const rep = representadas.find(r => r.id === p.representadaid);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...accentC);
+  doc.text('DADOS DO CLIENTE', 14, y);
+  doc.setDrawColor(...accentC);
+  doc.line(14, y + 1.5, 100, y + 1.5);
+  y += 7;
+
+  doc.setTextColor(50, 50, 50);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.text(cliente ? cliente.name : (p.clienteid || 'Cliente não encontrado'), 14, y);
+  y += 5;
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  if (cliente?.address) { doc.setTextColor(100, 100, 100); doc.text(cliente.address, 14, y); y += 4; }
+  if (cliente?.tel) { doc.text(`Tel: ${cliente.tel}`, 14, y); y += 4; }
+  if (rep) {
+    doc.setTextColor(80, 80, 80);
+    doc.text(`Representada: ${rep.nome}`, 14, y); y += 4;
+  }
+  if (p.obs) { doc.setTextColor(130, 100, 0); doc.text(`Obs: ${p.obs}`, 14, y); y += 4; }
+
+  // ── Tabela de Itens ──
+  y += 4;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...accentC);
+  doc.text('ITENS DO PEDIDO', 14, y);
+  doc.line(14, y + 1.5, 100, y + 1.5);
+  y += 5;
+
+  const itens = p.itens || [];
+  const bodyData = itens.map((item, idx) => [
+    idx + 1,
+    item.desc || '',
+    String(item.qtd || 1),
+    fmtBRL(item.vlr || 0),
+    fmtBRL((item.qtd || 1) * (item.vlr || 0))
+  ]);
+
+  doc.autoTable({
+    startY: y,
+    head: [['#', 'Descrição', 'Qtd', 'Valor Unit.', 'Subtotal']],
+    body: bodyData,
+    headStyles: { fillColor: headerBg, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
+    bodyStyles: { fontSize: 9, textColor: [50, 50, 50] },
+    alternateRowStyles: { fillColor: [248, 250, 252] },
+    columnStyles: { 0: { halign: 'center', cellWidth: 10 }, 2: { halign: 'center', cellWidth: 18 }, 3: { halign: 'right', cellWidth: 28 }, 4: { halign: 'right', cellWidth: 28 } },
+    theme: 'grid',
+    margin: { left: 14, right: 14 },
+  });
+
+  // ── Total ──
+  const finalY = doc.lastAutoTable.finalY + 6;
+  doc.setFillColor(15, 17, 23);
+  doc.roundedRect(210 - 14 - 80, finalY, 80, 12, 2, 2, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(255, 255, 255);
+  doc.text('VALOR TOTAL:', 210 - 14 - 78 + 2, finalY + 8);
+  doc.setTextColor(...accentC);
+  doc.text(fmtBRL(p.total || 0), 210 - 14 - 2, finalY + 8, { align: 'right' });
+
+  // ── Rodapé ──
+  const pageH = doc.internal.pageSize.height;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(160, 160, 160);
+  doc.text(`Gerado pelo VETRA · ${new Date().toLocaleString('pt-BR')}`, 14, pageH - 10);
+  doc.text('JDR Representações', 210 - 14, pageH - 10, { align: 'right' });
+
+  // Abre o PDF em nova aba
+  const blob = doc.output('blob');
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  toast('PDF gerado! Verifique a nova aba.', 'success');
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
